@@ -649,7 +649,8 @@ body {
 /* ══════════════════
    SECTION HEADER — 每個大區塊共用
 ══════════════════ */
-.sec-header {
+.sec-header 
+{   
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -821,27 +822,27 @@ body {
   border-bottom: none;
 }
 .exercise-body {
+  border-radius: 20px 20px 0 0 ;
   display: flex;
   gap: 8px;
-  padding: 8px;
+  padding: 16px var(--page-gutter-lg) 0;
   background: var(--color-bg);
   min-height: 400px;
-  border-radius: 20px 20px 0 0 ;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .exercise-body:hover .exercise-card {
-  flex: 0.6;
-  min-width: 0;
+  flex: 0.5;
+  min-width: 72px;
 }
 
 .exercise-body:hover .exercise-card:hover {
-  flex: 2.2;
-  min-width: 0;
+  flex: 1;
+  min-width: 260px;
 }
 
 .exercise-card {
-  flex: 1;
+  flex: 0.5;
   min-width: 0;
   padding: 48px 40px 40px;
   cursor: pointer;
@@ -852,13 +853,14 @@ body {
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  transition: flex 0.55s var(--ease-expo), transform 0.4s var(--ease-expo);
+  transition: flex 0.85s var(--ease-expo);
 }
 
-/* 三張卡片背景色 */
-.exercise-card:nth-child(1) { background:var(--color-black) ; color: #fff; }
-.exercise-card:nth-child(2) { background: #3d5247 ; color: #fff; }
-.exercise-card:nth-child(3) { background: #c17f5a; color: #fff; }
+/* 四張卡片背景色 */
+.exercise-card:nth-child(1) { background: var(--color-black); color: #fff; }
+.exercise-card:nth-child(2) { background: #3d5247;            color: #fff; }
+.exercise-card:nth-child(3) { background: #c17f5a;            color: #fff; }
+.exercise-card:nth-child(4) { background: #7a6e5f;            color: #fff; }
 
 /* 屏風展開效果：單一全寬偽元素從中心往兩側展開 */
 /* .exercise-card::before {
@@ -873,7 +875,6 @@ body {
   z-index: 1;
 } */
 
-.exercise-card:hover { transform: translateY(-6px); }
 .exercise-card:hover::before { transform: scaleX(1); }
 
 /* 深色卡片的 pill border */
