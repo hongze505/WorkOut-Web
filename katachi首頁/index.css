@@ -476,7 +476,6 @@ html.intro-active { scrollbar-color: transparent transparent; }
 
 .mc-num {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
   font-weight: 300;
   font-size: 0.85rem;
   letter-spacing: 2px;
@@ -508,7 +507,6 @@ html.intro-active { scrollbar-color: transparent transparent; }
 
 .mc-en {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
   font-weight: 300;
   font-size: 0.75rem;
   letter-spacing: 4px;
@@ -527,7 +525,6 @@ html.intro-active { scrollbar-color: transparent transparent; }
 
 .mc-quote {
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 1.4rem;
   font-weight: 300;
   line-height: 1.6;
@@ -599,8 +596,8 @@ html.intro-active { scrollbar-color: transparent transparent; }
 .menu-btn-text {
   font-family: var(--font-brand);
   font-weight: var(--weight-black);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--color-bg);
   transition: opacity var(--dur-instant)
@@ -612,8 +609,8 @@ html.intro-active { scrollbar-color: transparent transparent; }
 /* 漢堡線 → X 動畫 */
 .menu-lines {
   position: relative;
-  width: 8px;
-  height: 11px;
+  width: 10px;
+  height: 15px;
 }
 
 .menu-line {
@@ -628,9 +625,9 @@ html.intro-active { scrollbar-color: transparent transparent; }
 }
 
 .menu-line:nth-child(1) { top: 0; }
-.menu-line:nth-child(2) { top: 6px; }
+.menu-line:nth-child(2) { top: 8px; }
 
-#menu-btn:hover .menu-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+#menu-btn:hover .menu-line:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 #menu-btn:hover .menu-line:nth-child(2) { transform: rotate(-45deg); }
 
 /* ── KEYFRAMES ── */
@@ -659,7 +656,7 @@ body {
 }
 .sec-num {
   font-family: var(--font-italic);
-  font-style: italic;
+  none: italic;
   font-size: 0.75rem;
   letter-spacing: 3px;
   color: var(--color-grey-mute);
@@ -699,7 +696,7 @@ body {
 ══════════════════ */
 #sec-muscle { 
   background:var(--color-bg);  /* 與頁面底色不同 */
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0;
   border-bottom: 0.5px solid var(--color-line);
 }
 .muscle-body {
@@ -733,7 +730,6 @@ body {
 .muscle-headline span {
   font-family: var(--font-serif);
   font-weight: 200;
-  font-style: italic;
   font-size: 0.45em;
   letter-spacing: 4px;
   color: var(--color-grey-mid);
@@ -801,14 +797,12 @@ body {
 }
 .muscle-part-en {
   font-family: var(--font-italic);
-  font-style: italic;
   font-size: 0.75rem;
   color: var(--color-grey-mute);
   letter-spacing: 2px;
 }
 .muscle-part-num {
   font-family: var(--font-italic);
-  font-style: italic;
   font-size: 0.72rem;
   color: var(--color-grey-mute);
   letter-spacing: 1px;
@@ -819,114 +813,145 @@ body {
    橫向三欄
 ══════════════════ */
 #sec-exercise {
-  border-bottom: none;
+border-radius: 0 0 20px 20px;
+background-color: var(--color-bg);
 }
 .exercise-body {
-  border-radius: 20px 20px 0 0 ;
   display: flex;
   gap: 8px;
-  padding: 16px var(--page-gutter-lg) 0;
-  background: var(--color-bg);
+  padding: 16px var(--page-gutter-lg) 48px; 
   min-height: 400px;
   overflow: visible;
 }
 
-.exercise-body:hover .exercise-card {
-  flex: 0.5;
-  min-width: 72px;
-}
-
-.exercise-body:hover .exercise-card:hover {
-  flex: 1;
-  min-width: 260px;
-}
+.exercise-body:hover .exercise-card { flex: 0.6; }
+.exercise-body:hover .exercise-card:hover { flex: 1; }
 
 .exercise-card {
-  flex: 0.5;
+  flex: 1;
   min-width: 0;
-  padding: 48px 40px 40px;
+  padding: 36px 32px;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  transition: flex 0.85s var(--ease-expo);
+  transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1);
 }
 
 /* 四張卡片背景色 */
-.exercise-card:nth-child(1) { background: var(--color-black); color: #fff; }
-.exercise-card:nth-child(2) { background: #3d5247;            color: #fff; }
-.exercise-card:nth-child(3) { background: #c17f5a;            color: #fff; }
-.exercise-card:nth-child(4) { background: #7a6e5f;            color: #fff; }
+.exercise-card:nth-child(1) { background: var(--color-black); }
+.exercise-card:nth-child(2) { background: #3d5247; }
+.exercise-card:nth-child(3) { background: #c17f5a; }
+.exercise-card:nth-child(4) { background: #2a1a0e ; }
 
-/* 屏風展開效果：單一全寬偽元素從中心往兩側展開 */
-/* .exercise-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.07);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.55s var(--ease-expo);
-  pointer-events: none;
-  z-index: 1;
-} */
+/* 頂部：tag + 垂直大數字 */
+.ex-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-.exercise-card:hover::before { transform: scaleX(1); }
-
-/* 深色卡片的 pill border */
-.exercise-card:nth-child(1) .ex-pill { border-color: var(--color-white-faint); }
-.exercise-card:nth-child(2) .ex-pill { border-color: var(--color-white-faint); }
-.exercise-card:nth-child(3) .ex-pill { border-color: var(--color-white-faint); }
 .ex-tag {
-  font-size: var(--text-h3);
-  font-weight:  var(--weight-medium);
+  writing-mode: vertical-rl;
+  font-size: 1rem;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: inherit;
-  opacity: 0.6;
-  margin-bottom: 20px;
+  color: rgba(255,255,255,0.4);
   display: block;
 }
-.ex-num {
+
+.ex-num-v {
+  writing-mode: vertical-rl;
   font-family: var(--font-brand);
   font-weight: 800;
   font-size: 4rem;
-  color: inherit;
-  opacity: 0.1;
+  color: rgba(255,255,255,0.08);
+  letter-spacing: -4px;
   line-height: 1;
-  margin-bottom: 12px;
+  border-right: 1px solid rgba(255,255,255,0.12);
+  padding-right: 8px;
 }
+
+/* 下方資訊：hover 時從底部升起 */
+.ex-card-info {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s 0.15s, transform 0.4s 0.15s cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+.exercise-card:hover .ex-card-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .ex-title {
   font-family: var(--font-sans);
-  font-size: 1.1rem;
+  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
   font-weight: 300;
   letter-spacing: 3px;
-  color: inherit;
-  margin-bottom: 16px;
+  color: #ffffff;
+  margin-bottom: 12px;
 }
+
 .ex-desc {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   line-height: 1.9;
-  color: inherit;
-  opacity: 0.65;
-  margin-bottom: 28px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 20px;
 }
+
 .ex-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-bottom: 20px;
 }
+
 .ex-pill {
   font-size: 0.5rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-grey-mid);
-  border: 0.5px solid var(--color-line);
+  color: rgba(255,255,255,0.5);
+  border: 0.5px solid rgba(255,255,255,0.2);
   padding: 4px 10px;
+}
+
+/* 查看按鈕 */
+.ex-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  border: 0.5px solid rgba(255,255,255,0.25);
+  padding: 8px 20px;
+  transition: background 0.3s, color 0.3s;
+  width: fit-content;
+}
+
+.ex-view-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+/* 底部色條 */
+.ex-card-bottom-line {
+  height: 3px;
+  width: 100%;
+  margin-top: 24px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+
+.exercise-card:hover .ex-card-bottom-line {
+  background: rgba(255,255,255,0.5);
 }
  
 /* ══════════════════
@@ -934,11 +959,11 @@ body {
    全寬橫版雜誌風
 ══════════════════ */
 #sec-program {
-  background-color: var(--color-bg);
-  border-bottom: 0.5px solid var(--color-line);
-  border-radius: 0 0 20px 20px ;
 }
 .program-body {
+  border-radius: 20px;
+  background-color: var(--color-bg);
+  border: 0.5px solid var(--color-line);
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   min-height: 360px;
@@ -1079,7 +1104,7 @@ body {
 }
 .nutrition-headline em {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 200;
   font-size: 0.4em;
   letter-spacing: 4px;
@@ -1188,7 +1213,6 @@ footer {
 }
 .footer-tagline {
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 0.82rem;
   line-height: 1.8;
   color: rgba(255,255,255,0.3);
@@ -1364,6 +1388,7 @@ footer {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
 
 /* ══════════════════════════════
    RESPONSIVE — NAV
