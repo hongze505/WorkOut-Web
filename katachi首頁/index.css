@@ -624,8 +624,8 @@ html.intro-active { scrollbar-color: transparent transparent; }
   transform-origin: center;
 }
 
-.menu-line:nth-child(1) { top: 0; }
-.menu-line:nth-child(2) { top: 8px; }
+.menu-line:nth-child(1) { top: 0px; }
+.menu-line:nth-child(2) { top: 9px; }
 
 #menu-btn:hover .menu-line:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 #menu-btn:hover .menu-line:nth-child(2) { transform: rotate(-45deg); }
@@ -656,7 +656,6 @@ body {
 }
 .sec-num {
   font-family: var(--font-italic);
-  none: italic;
   font-size: 0.75rem;
   letter-spacing: 3px;
   color: var(--color-grey-mute);
@@ -664,8 +663,8 @@ body {
 .sec-title {
   font-family: var(--font-brand);
   font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 6px;
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  letter-spacing: px;
   text-transform: uppercase;
   color: var(--color-black);
 }
@@ -680,16 +679,7 @@ body {
   gap: 8px;
   transition: color 0.2s;
 }
-.sec-link:hover { color: var(--color-black); }
-.sec-link::after {
-  content: '';
-  display: inline-block;
-  width: 20px; height: 1px;
-  background: currentColor;
-  transition: width 0.2s var(--ease-expo);
-}
-.sec-link:hover::after { width: 32px; }
- 
+
 /* ══════════════════
    01 — 肌肉百科
    左大圖文字 + 右部位列表
@@ -698,6 +688,7 @@ body {
   background:var(--color-bg);  /* 與頁面底色不同 */
   border-radius: 20px 20px 0 0;
   border-bottom: 0.5px solid var(--color-line);
+  padding-top: 48px;
 }
 .muscle-body {
   display: grid;
@@ -824,8 +815,11 @@ background-color: var(--color-bg);
   overflow: visible;
 }
 
-.exercise-body:hover .exercise-card { flex: 0.6; }
-.exercise-body:hover .exercise-card:hover { flex: 1; }
+.exercise-body:has(.exercise-card:hover) .exercise-card {
+  flex: 0.6;
+  transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1); /* 立即反應，不 delay */
+}
+.exercise-body:has(.exercise-card:hover) .exercise-card:hover { flex: 1; }
 
 .exercise-card {
   flex: 1;
@@ -839,7 +833,8 @@ background-color: var(--color-bg);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1);
+  /* 離開時加 60ms delay，讓滑鼠穿越 8px gap 時不觸發復位 */
+  transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1) 0.06s;
 }
 
 /* 四張卡片背景色 */
@@ -961,16 +956,16 @@ background-color: var(--color-bg);
 #sec-program {
 }
 .program-body {
-  border-radius: 20px;
-  background-color: var(--color-bg);
-  border: 0.5px solid var(--color-line);
+  overflow: hidden;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   min-height: 360px;
+  padding-top: 120px;
 }
 .program-intro {
   padding: 56px 64px 56px 80px;
-  border-right: 0.5px solid var(--color-line);
+  border-radius: 20px;
+  background-color: var(--color-bg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -999,24 +994,45 @@ background-color: var(--color-bg);
   flex: 1;
   margin-bottom: 32px;
 }
+
 .program-card {
-  padding: 40px 36px;
-  border-right: 0.5px solid var(--color-line);
+  padding: 40px 36px ; 
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  transition: background 0.2s;
+  transition: background 0.4s ease, color 0.4s ease;
 }
-.program-card:last-child { border-right: none; }
-.program-card:hover { background: #fafaf8; }
+.program-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;                  /* ← 調這個：線的起始位置 */
+  transform: translateY(-50%);
+  width: 0.5px;
+  height: 85%;               /* ← 調這個：線的長度 */
+  background: var(--color-line);
+  transition: opacity 0.4s ease;
+}
+
+.program-card:hover {
+  border-radius: 20px;
+  background-color:  #fafaf8;
+  color: #000;
+}
+
+.program-card:hover::before,
+.program-card:hover + .program-card::before {
+  opacity: 0;
+}
 .program-card.dark {
   background: var(--color-black);
   color: #fff;
 }
-.program-card.dark:hover { background: #222; }
+.program-card.dark:hover { background: #fafaf8; color: #000; }
 .program-type {
   font-size: 0.5rem;
   letter-spacing: 5px;
@@ -1029,6 +1045,7 @@ background-color: var(--color-bg);
 .program-name {
   font-family: var(--font-brand);
   font-weight: 800;
+  color: white;
   font-size: 1.8rem;
   letter-spacing: 2px;
   line-height: 1;
@@ -1060,6 +1077,11 @@ background-color: var(--color-bg);
   margin-top: 24px;
 }
 .program-card.dark .program-arrow { color: rgba(255,255,255,0.4); }
+.program-card:hover .program-type,
+.program-card:hover .program-name,
+.program-card:hover .program-jp,
+.program-card:hover .program-detail,
+.program-card:hover .program-arrow { color: #000; }
 .program-arrow-line {
   width: 16px; height: 1px;
   background: currentColor;
