@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>飲食計算 — KATACHI</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;1,200;1,300&family=Noto+Sans+JP:wght@100;200;300&family=Noto+Serif+JP:wght@200;300;400&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="nutrition.css">
+</head>
+
+<body>
+
+  <!-- 書本翻開選單遮罩 -->
+  <div id="byobu">
+    <div id="byobu-left"></div>
+    <div id="byobu-right"></div>
+  </div>
+
+  <!-- 選單內容 -->
+  <div id="menu-content">
+    <div class="mc-left">
+      <ul class="mc-links">
+        <li class="mc-item">
+          <a class="mc-link" href="#">
+            <span class="mc-num">01</span>
+            <span class="mc-text-wrap"><span class="mc-text">肌肉百科</span></span>
+            <span class="mc-en">Muscle Wiki</span>
+          </a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="#">
+            <span class="mc-num">02</span>
+            <span class="mc-text-wrap"><span class="mc-text">動作教學</span></span>
+            <span class="mc-en">Exercises</span>
+          </a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="#">
+            <span class="mc-num">03</span>
+            <span class="mc-text-wrap"><span class="mc-text">訓練計畫</span></span>
+            <span class="mc-en">Programs</span>
+          </a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="nutrition.html" onclick="closeMenu()">
+            <span class="mc-num">04</span>
+            <span class="mc-text-wrap"><span class="mc-text">飲食計算</span></span>
+            <span class="mc-en">Nutrition</span>
+          </a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="#">
+            <span class="mc-num">05</span>
+            <span class="mc-text-wrap"><span class="mc-text">商店 / 會員</span></span>
+            <span class="mc-en">Shop</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="mc-right">
+      <div class="mc-quote">
+        精準的訓練，<br>始於對身體<br>的理解
+      </div>
+    </div>
+    <button class="mc-close" onclick="closeMenu()">
+      <span class="mc-close-x"></span>
+      Close
+    </button>
+  </div>
+
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <nav id="nav" class="visible">
+    <a class="nav-logo" href="index.html">KATACH<span class="dumbbell-i">
+      <svg viewBox="0 0 28 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="0" width="24" height="7" rx="1.5" fill="currentColor"/>
+        <rect x="0" y="9" width="28" height="9" rx="2" fill="currentColor"/>
+        <rect x="11" y="20" width="6" height="40" fill="currentColor"/>
+        <rect x="0" y="62" width="28" height="9" rx="2" fill="currentColor"/>
+        <rect x="2" y="73" width="24" height="7" rx="1.5" fill="currentColor"/>
+      </svg>
+    </span></a>
+    <ul class="nav-links">
+      <li><a href="#">肌肉百科</a></li>
+      <li><a href="#">動作教學</a></li>
+      <li><a href="#">訓練計畫</a></li>
+      <li><a href="nutrition.html" class="nav-active">飲食</a></li>
+      <li><a href="#">商店</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-user" href="#" title="會員登入">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="9" cy="6" r="3.25" stroke="currentColor" stroke-width="2"/>
+          <path d="M1.5 17c0-4.142 3.358-7.5 7.5-7.5s7.5 3.358 7.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <button id="menu-btn" onclick="openMenu()">
+        <span class="menu-lines">
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+        </span>
+        <span class="menu-btn-text">Menu</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       PAGE HERO
+  ══════════════════════════════════════════ -->
+  <header id="nutrition-hero">
+    <div class="nh-inner">
+      <p class="nh-eyebrow">Nutrition Science</p>
+      <h1 class="nh-title">NUTRITION<br>TRACKER</h1>
+      <p class="nh-sub">精準飲食 · 科學計算</p>
+    </div>
+    <div class="nh-scroll">
+      <span class="scroll-text">Scroll</span>
+      <div class="scroll-line"><div class="scroll-dot"></div></div>
+    </div>
+  </header>
+  <!-- ══════════════════════════════════════════
+       01 — 食物搜尋 + 今日飲食記錄
+  ══════════════════════════════════════════ -->
+  <section id="sec-food">
+    <div class="food-header">
+      <div>
+        <p class="calc-eyebrow">Food Log</p>
+        <h2 class="calc-headline no-span">今日飲食記錄</h2>
+      </div>
+      <p class="food-header-desc">搜尋食物並加入今日記錄，即時追蹤三大巨量營養素攝取量。</p>
+    </div>
+
+    <div class="food-layout">
+
+      <!-- 左：搜尋 + 資料庫 -->
+      <div class="food-search-panel">
+        <p class="panel-label">食物資料庫</p>
+        <div class="food-search-wrap">
+          <input class="food-search-input" type="text" id="food-search" placeholder="搜尋食物名稱…" oninput="filterFoods()">
+          <span class="food-search-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+        <div class="food-list" id="food-list"></div>
+      </div>
+
+      <!-- 中：今日記錄 -->
+      <div class="food-log-panel">
+        <p class="panel-label">今日記錄</p>
+        <div class="food-log-list" id="food-log">
+          <div class="food-log-empty" id="log-empty"><span>尚未記錄任何食物</span></div>
+        </div>
+        <div class="food-log-total" id="log-total" style="display:none">
+          <div class="log-total-row">
+            <span class="log-total-label">總熱量</span>
+            <span class="log-total-val" id="total-cal">0</span>
+            <span class="log-total-unit">kcal</span>
+          </div>
+          <div class="log-total-macros">
+            <span id="total-protein">蛋白質 0g</span>
+            <span id="total-carbs">碳水 0g</span>
+            <span id="total-fat">脂肪 0g</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右：圓餅圖 + 進度條 -->
+      <div class="food-chart-panel">
+        <p class="panel-label">營養素分佈</p>
+
+        <div class="donut-wrap">
+          <svg viewBox="0 0 120 120" class="donut-svg">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#e6e3de" stroke-width="16"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#5b7fa6" stroke-width="16"
+              stroke-dasharray="0 301.59" stroke-linecap="butt"
+              transform="rotate(-90 60 60)" id="donut-protein"
+              style="transition:stroke-dasharray 0.8s cubic-bezier(0.16,1,0.3,1)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#c4a86b" stroke-width="16"
+              stroke-dasharray="0 301.59" stroke-linecap="butt"
+              transform="rotate(-90 60 60)" id="donut-carbs"
+              style="transition:stroke-dasharray 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s,transform 0.8s cubic-bezier(0.16,1,0.3,1)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#a86b5b" stroke-width="16"
+              stroke-dasharray="0 301.59" stroke-linecap="butt"
+              transform="rotate(-90 60 60)" id="donut-fat"
+              style="transition:stroke-dasharray 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s,transform 0.8s cubic-bezier(0.16,1,0.3,1)"/>
+          </svg>
+          <div class="donut-center">
+            <span class="donut-cal" id="donut-cal">0</span>
+            <span class="donut-unit-sm">kcal</span>
+          </div>
+        </div>
+
+        <div class="donut-legend">
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#5b7fa6"></span>
+            <span class="legend-label">蛋白質</span>
+            <span class="legend-val" id="legend-protein">0g</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#c4a86b"></span>
+            <span class="legend-label">碳水化合物</span>
+            <span class="legend-val" id="legend-carbs">0g</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot" style="background:#a86b5b"></span>
+            <span class="legend-label">脂肪</span>
+            <span class="legend-val" id="legend-fat">0g</span>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <p class="progress-title">今日熱量目標</p>
+          <div class="progress-track">
+            <div class="progress-bar" id="cal-progress-bar" style="width:0%"></div>
+          </div>
+          <div class="progress-labels">
+            <span id="progress-current">0 kcal</span>
+            <span id="progress-target">目標 — kcal</span>
+          </div>
+          <p class="progress-hint">* 請先計算 TDEE 以設定目標熱量</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       02 — TDEE / BMR 計算器
+  ══════════════════════════════════════════ -->
+  <section id="sec-tdee">
+    <div class="calc-layout reverse">
+
+      <div class="calc-right tdee-result-panel">
+        <div id="tdee-empty" class="tdee-empty">
+          <p class="tdee-empty-text">輸入資料後<br>顯示每日熱量需求</p>
+        </div>
+        <div id="tdee-result" class="tdee-result hidden">
+          <div class="tdee-bmr-block">
+            <span class="tdee-label-sm">基礎代謝率 BMR</span>
+            <div class="tdee-num-row">
+              <span class="tdee-num-lg" id="bmr-display">—</span>
+              <span class="tdee-unit">kcal / day</span>
+            </div>
+          </div>
+          <div class="tdee-divider"></div>
+          <div class="tdee-main-block">
+            <span class="tdee-label-sm">每日總熱量 TDEE</span>
+            <div class="tdee-num-row">
+              <span class="tdee-num-xl" id="tdee-display">—</span>
+              <span class="tdee-unit">kcal / day</span>
+            </div>
+          </div>
+          <div class="tdee-divider"></div>
+          <div class="tdee-goals">
+            <div class="tdee-goal-row">
+              <span class="tdee-goal-label">減脂目標</span>
+              <div>
+                <span class="tdee-goal-val" id="tdee-cut">—</span>
+                <span class="tdee-goal-unit">kcal</span>
+              </div>
+            </div>
+            <div class="tdee-goal-row">
+              <span class="tdee-goal-label">維持體重</span>
+              <div>
+                <span class="tdee-goal-val" id="tdee-maintain">—</span>
+                <span class="tdee-goal-unit">kcal</span>
+              </div>
+            </div>
+            <div class="tdee-goal-row">
+              <span class="tdee-goal-label">增肌目標</span>
+              <div>
+                <span class="tdee-goal-val" id="tdee-bulk">—</span>
+                <span class="tdee-goal-unit">kcal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-left">
+        <p class="calc-eyebrow">Calculator 02</p>
+        <h2 class="calc-headline">
+          <span>每日總熱量消耗</span>
+          TDEE
+        </h2>
+        <p class="calc-desc">根據 Mifflin-St Jeor 公式計算基礎代謝率，再乘以活動係數，得出你每天真正需要的熱量。</p>
+
+        <div class="calc-form">
+          <div class="calc-row-2">
+            <div class="calc-field">
+              <label class="calc-label">性別</label>
+              <div class="calc-radio-group">
+                <label class="calc-radio">
+                  <input type="radio" name="tdee-gender" value="male" checked>
+                  <span>男</span>
+                </label>
+                <label class="calc-radio">
+                  <input type="radio" name="tdee-gender" value="female">
+                  <span>女</span>
+                </label>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">年齡</label>
+              <div class="calc-input-wrap">
+                <input class="calc-input" type="number" id="tdee-age" placeholder="25" min="10" max="100">
+                <span class="calc-unit">歲</span>
+              </div>
+            </div>
+          </div>
+          <div class="calc-row-2">
+            <div class="calc-field">
+              <label class="calc-label">身高</label>
+              <div class="calc-input-wrap">
+                <input class="calc-input" type="number" id="tdee-height" placeholder="175" min="100" max="250">
+                <span class="calc-unit">cm</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">體重</label>
+              <div class="calc-input-wrap">
+                <input class="calc-input" type="number" id="tdee-weight" placeholder="70" min="30" max="300">
+                <span class="calc-unit">kg</span>
+              </div>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">活動量</label>
+            <select class="calc-select" id="tdee-activity">
+              <option value="1.2">久坐（幾乎不運動）</option>
+              <option value="1.375">輕度活動（每週運動 1–3 天）</option>
+              <option value="1.55" selected>中度活動（每週運動 3–5 天）</option>
+              <option value="1.725">高度活動（每週運動 6–7 天）</option>
+              <option value="1.9">極高活動（體力勞動或每日訓練）</option>
+            </select>
+          </div>
+          <button class="calc-btn" onclick="calcTDEE()">計算 TDEE</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+    <!-- ══════════════════════════════════════════
+       03 — BMI 計算器
+  ══════════════════════════════════════════ -->
+  <section id="sec-bmi">
+    <div class="calc-layout">
+
+      <div class="calc-left">
+        <p class="calc-eyebrow">Calculator 01</p>
+        <h2 class="calc-headline">
+          <span>身體質量指數</span>
+          BMI
+        </h2>
+        <p class="calc-desc">輸入身高與體重，計算你目前的身體質量指數，並對照 WHO 標準分級，了解自己的體重狀態。</p>
+
+        <div class="calc-form">
+          <div class="calc-field">
+            <label class="calc-label">身高</label>
+            <div class="calc-input-wrap">
+              <input class="calc-input" type="number" id="bmi-height" placeholder="175" min="100" max="250">
+              <span class="calc-unit">cm</span>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">體重</label>
+            <div class="calc-input-wrap">
+              <input class="calc-input" type="number" id="bmi-weight" placeholder="70" min="30" max="300">
+              <span class="calc-unit">kg</span>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcBMI()">計算 BMI</button>
+        </div>
+      </div>
+
+      <div class="calc-right">
+        <div class="bmi-result-wrap">
+          <div class="bmi-gauge">
+            <svg viewBox="0 0 200 110" class="gauge-svg">
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e6e3de" stroke-width="12" stroke-linecap="round"/>
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#bmiGrad)" stroke-width="12" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="bmiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#5b8fa8"/>
+                  <stop offset="35%"  stop-color="#6aab7a"/>
+                  <stop offset="60%"  stop-color="#e6a840"/>
+                  <stop offset="100%" stop-color="#c0544a"/>
+                </linearGradient>
+              </defs>
+              <line id="bmi-needle" x1="100" y1="100" x2="100" y2="28"
+                stroke="#181818" stroke-width="2" stroke-linecap="round"
+                transform="rotate(-90, 100, 100)"
+                style="transition: transform 0.8s cubic-bezier(0.16,1,0.3,1)"/>
+              <circle cx="100" cy="100" r="5" fill="#181818"/>
+            </svg>
+            <div class="bmi-number" id="bmi-display">—</div>
+          </div>
+          <div class="bmi-category" id="bmi-category">輸入數值後計算</div>
+          <div class="bmi-scale">
+            <div class="bmi-scale-row">
+              <span class="bmi-scale-dot" style="background:#5b8fa8"></span>
+              <span class="bmi-scale-label">過輕</span>
+              <span class="bmi-scale-range">BMI &lt; 18.5</span>
+            </div>
+            <div class="bmi-scale-row">
+              <span class="bmi-scale-dot" style="background:#6aab7a"></span>
+              <span class="bmi-scale-label">正常</span>
+              <span class="bmi-scale-range">18.5 – 24.9</span>
+            </div>
+            <div class="bmi-scale-row">
+              <span class="bmi-scale-dot" style="background:#e6a840"></span>
+              <span class="bmi-scale-label">過重</span>
+              <span class="bmi-scale-range">25.0 – 29.9</span>
+            </div>
+            <div class="bmi-scale-row">
+              <span class="bmi-scale-dot" style="background:#c0544a"></span>
+              <span class="bmi-scale-label">肥胖</span>
+              <span class="bmi-scale-range">BMI ≥ 30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- 跑馬燈 -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
+      <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Nutrition <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Food Log <span class="marquee-dot"></span></span>
+      <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
+      <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Nutrition <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Food Log <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">KATACHI</div>
+        <p class="footer-tagline">精準的訓練，始於對身體的理解。每一組動作都應有其意義。</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link">IG</a>
+          <a href="#" class="footer-social-link">YT</a>
+          <a href="#" class="footer-social-link">FB</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">功能</p>
+        <ul class="footer-links">
+          <li><a href="#">肌肉百科</a></li>
+          <li><a href="#">動作教學</a></li>
+          <li><a href="#">訓練計畫</a></li>
+          <li><a href="nutrition.html">飲食計算</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">計算工具</p>
+        <ul class="footer-links">
+          <li><a href="#">1RM 計算器</a></li>
+          <li><a href="#">BMI 計算器</a></li>
+          <li><a href="#">TDEE 計算器</a></li>
+          <li><a href="#">強度百分比表</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">會員</p>
+        <ul class="footer-links">
+          <li><a href="#">登入 / 註冊</a></li>
+          <li><a href="#">訓練日誌</a></li>
+          <li><a href="#">進度追蹤</a></li>
+          <li><a href="#">個人儀表板</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 KATACHI. All rights reserved.</span>
+      <span class="footer-jp">形 · 重訓訓練百科</span>
+      <button class="footer-scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <span class="footer-scroll-arr"></span>
+        Back to top
+      </button>
+    </div>
+  </footer>
+
+  <script>
+  /* ════════════════════════════════════════
+     NAV（與首頁完全一致）
+  ════════════════════════════════════════ */
+  const byobu       = document.getElementById('byobu');
+  const menuContent = document.getElementById('menu-content');
+
+  function openMenu() {
+    byobu.style.pointerEvents = 'all';
+    byobu.classList.remove('closing');
+    byobu.classList.add('open');
+    setTimeout(() => menuContent.classList.add('open'), 400);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    const closeBtn = document.querySelector('.mc-close');
+    if (closeBtn) {
+      closeBtn.classList.add('spinning');
+      setTimeout(() => closeBtn.classList.remove('spinning'), 400);
+    }
+    menuContent.classList.remove('open');
+    byobu.classList.remove('open');
+    byobu.classList.add('closing');
+    setTimeout(() => {
+      byobu.style.pointerEvents = 'none';
+      byobu.classList.remove('closing');
+      document.body.style.overflow = '';
+    }, 800);
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  const navbar = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('shrink', window.scrollY > 50);
+  });
+
+  /* ════════════════════════════════════════
+     假資料（之後替換成後端 API）
+     TODO: 替換為 fetch('/api/foods')
+  ════════════════════════════════════════ */
+  const FOOD_DB = [
+    { id:1,  name:'雞胸肉',   en:'Chicken Breast',   cal:165, protein:31,  carbs:0,   fat:3.6, unit:'100g'  },
+    { id:2,  name:'白飯',     en:'White Rice',        cal:130, protein:2.7, carbs:28,  fat:0.3, unit:'100g'  },
+    { id:3,  name:'水煮蛋',   en:'Boiled Egg',        cal:155, protein:13,  carbs:1.1, fat:11,  unit:'100g'  },
+    { id:4,  name:'花椰菜',   en:'Broccoli',          cal:34,  protein:2.8, carbs:7,   fat:0.4, unit:'100g'  },
+    { id:5,  name:'燕麥片',   en:'Oats',              cal:389, protein:17,  carbs:66,  fat:7,   unit:'100g'  },
+    { id:6,  name:'牛奶',     en:'Whole Milk',        cal:61,  protein:3.2, carbs:4.8, fat:3.3, unit:'100ml' },
+    { id:7,  name:'鮭魚',     en:'Salmon',            cal:208, protein:20,  carbs:0,   fat:13,  unit:'100g'  },
+    { id:8,  name:'地瓜',     en:'Sweet Potato',      cal:86,  protein:1.6, carbs:20,  fat:0.1, unit:'100g'  },
+    { id:9,  name:'希臘優格', en:'Greek Yogurt',      cal:59,  protein:10,  carbs:3.6, fat:0.4, unit:'100g'  },
+    { id:10, name:'花生醬',   en:'Peanut Butter',     cal:588, protein:25,  carbs:20,  fat:50,  unit:'100g'  },
+    { id:11, name:'香蕉',     en:'Banana',            cal:89,  protein:1.1, carbs:23,  fat:0.3, unit:'100g'  },
+    { id:12, name:'豆腐',     en:'Tofu',              cal:76,  protein:8,   carbs:1.9, fat:4.8, unit:'100g'  },
+    { id:13, name:'全麥吐司', en:'Whole Wheat Toast', cal:247, protein:13,  carbs:41,  fat:4.2, unit:'100g'  },
+    { id:14, name:'酪梨',     en:'Avocado',           cal:160, protein:2,   carbs:9,   fat:15,  unit:'100g'  },
+    { id:15, name:'蛋白粉',   en:'Whey Protein',      cal:382, protein:80,  carbs:8,   fat:4,   unit:'100g'  },
+  ];
+
+  let foodLog    = [];
+  let tdeeTarget = 0;
+
+  /* ── 渲染食物列表 ── */
+  function renderFoodList(list) {
+    document.getElementById('food-list').innerHTML = list.map(f => `
+      <div class="food-item">
+        <div class="food-item-info">
+          <span class="food-item-name">${f.name}</span>
+          <span class="food-item-en">${f.en}</span>
+        </div>
+        <div class="food-item-meta">
+          <span class="food-item-cal">${f.cal}</span>
+          <span class="food-item-unit">kcal / ${f.unit}</span>
+        </div>
+        <button class="food-add-btn" onclick="addToLog(${f.id})">+</button>
+      </div>
+    `).join('');
+  }
+
+  function filterFoods() {
+    const q = document.getElementById('food-search').value.trim().toLowerCase();
+    renderFoodList(q
+      ? FOOD_DB.filter(f => f.name.includes(q) || f.en.toLowerCase().includes(q))
+      : FOOD_DB);
+  }
+
+  /* ── 加入記錄 ── */
+  function addToLog(id) {
+    const food = FOOD_DB.find(f => f.id === id);
+    if (!food) return;
+    foodLog.push({ ...food, logId: Date.now() });
+    renderLog();
+    updateChart();
+  }
+
+  function removeFromLog(logId) {
+    foodLog = foodLog.filter(e => e.logId !== logId);
+    renderLog();
+    updateChart();
+  }
+
+  function renderLog() {
+    const el      = document.getElementById('food-log');
+    const totalEl = document.getElementById('log-total');
+
+    if (foodLog.length === 0) {
+      el.innerHTML = '<div class="food-log-empty"><span>尚未記錄任何食物</span></div>';
+      totalEl.style.display = 'none';
+      return;
+    }
+
+    el.innerHTML = foodLog.map(e => `
+      <div class="log-item">
+        <div class="log-item-left">
+          <span class="log-item-name">${e.name}</span>
+          <span class="log-item-detail">${e.cal} kcal &nbsp;·&nbsp; 蛋白 ${e.protein}g &nbsp;·&nbsp; 碳水 ${e.carbs}g &nbsp;·&nbsp; 脂肪 ${e.fat}g</span>
+        </div>
+        <button class="log-remove-btn" onclick="removeFromLog(${e.logId})">×</button>
+      </div>
+    `).join('');
+
+    const t = totals();
+    document.getElementById('total-cal').textContent     = Math.round(t.cal);
+    document.getElementById('total-protein').textContent = `蛋白質 ${Math.round(t.protein)}g`;
+    document.getElementById('total-carbs').textContent   = `碳水 ${Math.round(t.carbs)}g`;
+    document.getElementById('total-fat').textContent     = `脂肪 ${Math.round(t.fat)}g`;
+    totalEl.style.display = 'block';
+  }
+
+  function totals() {
+    return foodLog.reduce((acc, e) => ({
+      cal:     acc.cal     + e.cal,
+      protein: acc.protein + e.protein,
+      carbs:   acc.carbs   + e.carbs,
+      fat:     acc.fat     + e.fat,
+    }), { cal:0, protein:0, carbs:0, fat:0 });
+  }
+
+  /* ── 圓餅圖 + 進度條 ── */
+  function updateChart() {
+    const t = totals();
+    const C = 301.59;
+    const total = t.protein + t.carbs + t.fat || 1;
+
+    const pLen = C * (t.protein / total);
+    const cLen = C * (t.carbs   / total);
+    const fLen = C * (t.fat     / total);
+
+    setArc('donut-protein', pLen, C, 0);
+    setArc('donut-carbs',   cLen, C, pLen);
+    setArc('donut-fat',     fLen, C, pLen + cLen);
+
+    document.getElementById('donut-cal').textContent      = Math.round(t.cal);
+    document.getElementById('legend-protein').textContent = `${Math.round(t.protein)}g`;
+    document.getElementById('legend-carbs').textContent   = `${Math.round(t.carbs)}g`;
+    document.getElementById('legend-fat').textContent     = `${Math.round(t.fat)}g`;
+
+    const pct = tdeeTarget > 0 ? Math.min(t.cal / tdeeTarget * 100, 100) : 0;
+    document.getElementById('cal-progress-bar').style.width = pct + '%';
+    document.getElementById('progress-current').textContent = `${Math.round(t.cal)} kcal`;
+    if (tdeeTarget > 0) {
+      document.getElementById('progress-target').textContent = `目標 ${tdeeTarget} kcal`;
+      document.getElementById('progress-hint').style.display = 'none';
+    }
+  }
+
+  function setArc(id, arcLen, C, offset) {
+    const el  = document.getElementById(id);
+    const deg = (offset / C) * 360 - 90;
+    el.setAttribute('stroke-dasharray', `${arcLen} ${C - arcLen}`);
+    el.setAttribute('transform', `rotate(${deg} 60 60)`);
+  }
+
+  /* ════════════════════════════════════════
+     BMI 計算
+  ════════════════════════════════════════ */
+  function calcBMI() {
+    const h = parseFloat(document.getElementById('bmi-height').value);
+    const w = parseFloat(document.getElementById('bmi-weight').value);
+    if (!h || !w) { alert('請輸入有效的身高與體重'); return; }
+
+    const bmi = w / ((h / 100) ** 2);
+    document.getElementById('bmi-display').textContent = bmi.toFixed(1);
+
+    let cat, color;
+    if      (bmi < 18.5) { cat = '體重過輕'; color = '#5b8fa8'; }
+    else if (bmi < 25)   { cat = '體重正常'; color = '#6aab7a'; }
+    else if (bmi < 30)   { cat = '體重過重'; color = '#e6a840'; }
+    else                 { cat = '肥胖';     color = '#c0544a'; }
+
+    const catEl = document.getElementById('bmi-category');
+    catEl.textContent  = cat;
+    catEl.style.color  = color;
+
+    // 指針：BMI 10~40 → 角度 -90°~+90°
+    const angle = ((Math.min(Math.max(bmi, 10), 40) - 10) / 30) * 180 - 90;
+    document.getElementById('bmi-needle').setAttribute('transform', `rotate(${angle}, 100, 100)`);
+  }
+
+  /* ════════════════════════════════════════
+     TDEE 計算（Mifflin-St Jeor）
+  ════════════════════════════════════════ */
+  function calcTDEE() {
+    const gender   = document.querySelector('input[name="tdee-gender"]:checked').value;
+    const age      = parseFloat(document.getElementById('tdee-age').value);
+    const height   = parseFloat(document.getElementById('tdee-height').value);
+    const weight   = parseFloat(document.getElementById('tdee-weight').value);
+    const activity = parseFloat(document.getElementById('tdee-activity').value);
+
+    if (!age || !height || !weight) { alert('請填寫所有欄位'); return; }
+
+    let bmr = 10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161);
+    const tdee = Math.round(bmr * activity);
+    bmr = Math.round(bmr);
+
+    document.getElementById('bmr-display').textContent   = bmr;
+    document.getElementById('tdee-display').textContent  = tdee;
+    document.getElementById('tdee-cut').textContent      = tdee - 300;
+    document.getElementById('tdee-maintain').textContent = tdee;
+    document.getElementById('tdee-bulk').textContent     = tdee + 300;
+
+    document.getElementById('tdee-empty').classList.add('hidden');
+    document.getElementById('tdee-result').classList.remove('hidden');
+
+    tdeeTarget = tdee;
+    updateChart();
+  }
+
+  /* ── 初始化 ── */
+  renderFoodList(FOOD_DB);
+  </script>
+
+</body>
+</html>

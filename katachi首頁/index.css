@@ -274,7 +274,7 @@ html.intro-active { scrollbar-color: transparent transparent; }
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url(../kristaps-ungurs-3t7MOuYkB4o-unsplash.jpg); /* 加這行 */
+  background-image: url(../images/首頁圖.jpg); /* 加這行 */
 }
 
 
@@ -729,7 +729,8 @@ body {
 }
 .muscle-desc {
   font-family: var(--font-serif);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+  font-weight: 200;
   line-height: 2;
   color: var(--color-grey);
   max-width: 340px;
@@ -1031,8 +1032,10 @@ background-color: var(--color-bg);
 .program-card.dark {
   background: var(--color-black);
   color: #fff;
+  border-radius: 20px;
 }
 .program-card.dark:hover { background: #fafaf8; color: #000; }
+
 .program-type {
   font-size: 0.5rem;
   letter-spacing: 5px;
@@ -1041,7 +1044,7 @@ background-color: var(--color-bg);
   margin-bottom: 16px;
   display: block;
 }
-.program-card.dark .program-type { color: rgba(255,255,255,0.3); }
+
 .program-name {
   font-family: var(--font-brand);
   font-weight: 800;
@@ -1059,18 +1062,16 @@ background-color: var(--color-bg);
   letter-spacing: 3px;
   margin-bottom: 20px;
 }
-.program-card.dark .program-jp { color: rgba(255,255,255,0.3); }
 .program-detail {
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   line-height: 1.9;
-  color: var(--color-grey);
+  color: rgba(255,255,255,0.3);
 }
-.program-card.dark .program-detail { color: rgba(255,255,255,0.5); }
 .program-arrow {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.52rem;
+  font-size: 0.9rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--color-grey-mid);
