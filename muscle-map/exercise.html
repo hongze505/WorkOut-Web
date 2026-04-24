@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/exercise.css">
+  <title>健身動作</title>
+</head>
+
+<body>
+  <div class="ex-layout">
+
+    <!-- 頂部導覽列 -->
+    <header class="ex-header">
+      <button class="ex-back-btn" onclick="history.back()">← 返回</button>
+      <span class="ex-header-title" id="ex-muscle-name"></span>
+    </header>
+
+    <!-- 主內容 -->
+    <main class="ex-main">
+
+      <!-- 動作名稱 + 標籤 -->
+      <div class="ex-title-row">
+        <h1 class="ex-title" id="ex-title"></h1>
+        <span class="ex-badge" id="ex-badge"></span>
+      </div>
+
+      <!-- 左右分欄：gif + 說明 -->
+      <div class="ex-content-row">
+
+        <!-- 左：動作圖片 / gif -->
+        <div class="ex-img-wrap">
+          <img class="ex-img" id="ex-img" src="" alt="" />
+        </div>
+
+        <!-- 右欄 -->
+        <div class="ex-right-col">
+
+          <!-- 動作說明卡（自動撐高） -->
+          <section class="ex-desc-section">
+            <h2 class="ex-desc-label">動作說明</h2>
+            <p class="ex-desc" id="ex-desc"></p>
+          </section>
+
+          <!-- 統計卡（難度 + 肌群，有資料才顯示） -->
+          <div class="ex-stats-card" id="ex-stats-card" style="display:none">
+
+            <!-- 難度 -->
+            <div class="ex-difficulty-wrap" id="ex-difficulty-wrap" style="display:none">
+              <span class="ex-stats-label">難度</span>
+              <div class="ex-stars" id="ex-stars"></div>
+            </div>
+
+            <!-- 分隔線（兩區都有資料時才顯示） -->
+            <hr class="ex-stats-divider" id="ex-stats-divider" style="display:none">
+
+            <!-- 肌群占比 -->
+            <div class="ex-muscles-wrap" id="ex-muscles-wrap" style="display:none">
+              <span class="ex-stats-label">主要肌群(肌群占比用顏色區分)</span>
+              <div class="ex-muscle-bars" id="ex-muscle-bars"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/exercise.js"></script>
+</body>
+
+</html>

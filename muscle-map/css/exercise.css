@@ -1,0 +1,242 @@
+/* ── exercise.html 專用樣式 ── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f1117;
+  color: #e8eaf0;
+  font-family: sans-serif;
+}
+
+.ex-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── 頂部導覽列 ── */
+.ex-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 28px;
+  border-bottom: 1px solid #23262f;
+  flex-shrink: 0;
+}
+
+.ex-back-btn {
+  background: none;
+  border: 1px solid #3a3f4b;
+  color: #e8eaf0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 22px;
+  transition: background 160ms ease;
+}
+
+.ex-back-btn:hover {
+  background: #1a1d24;
+}
+
+.ex-header-title {
+  font-size: 23px;
+  color: #8f96a3;
+}
+
+/* ── 主內容區 ── */
+.ex-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 28px;
+  overflow: hidden;
+}
+
+/* ── 動作名稱 + 器材標籤 ── */
+.ex-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.ex-title {
+  font-size: 45px;
+  font-weight: 700;
+  color: #f4cd64;
+  margin: 0;
+}
+
+.ex-badge {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+  background: #f4cd64;
+  padding: 7px 16px;
+  border-radius: 999px;
+}
+
+/* ── 左右分欄 ── */
+.ex-content-row {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── 左：圖片 / gif ── */
+.ex-img-wrap {
+  flex: 1.4;
+  min-width: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0f1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ex-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── 右欄容器（說明卡 + 統計卡） ── */
+.ex-right-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+/* ── 動作說明卡 ── */
+.ex-desc-section {
+  flex: 1 1 0;
+  overflow: hidden;
+  background: #1a1d24;
+  border: 1px solid #2a2d36;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.ex-desc-label {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin: 0 0 12px;
+}
+
+/* 文字敘述 */
+.ex-desc {
+  font-size: 21px;
+  line-height: 1.75;
+  color: #c8cad0;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.ex-desc strong {
+  color: #f0f0f0;
+}
+
+/* ── 統計卡（難度 + 肌群） ── */
+.ex-stats-card {
+  flex: 1 1 0;
+  overflow: hidden;
+  background: #1a1d24;
+  border: 1px solid #2a2d36;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ex-stats-label {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+/* ── 難度星數 ── */
+.ex-stars {
+  display: flex;
+  gap: 6px;
+}
+
+.ex-star {
+  font-size: 41px;
+  color: #2a2d36;
+  line-height: 1;
+}
+
+.ex-star--filled {
+  color: #f4cd64;
+}
+
+/* ── 分隔線 ── */
+.ex-stats-divider {
+  border: none;
+  border-top: 1px solid #2a2d36;
+  margin: 8px 0;
+}
+
+/* ── 肌群占比 ── */
+.ex-muscle-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ex-muscle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ex-muscle-label {
+  width: 88px;
+  font-size: 21px;
+  color: #c8cad0;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.ex-muscle-bar-bg {
+  flex: 1;
+  height: 14px;
+  background: #2a2d36;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ex-muscle-bar-fill {
+  height: 100%;
+  background: #f4cd64;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.ex-muscle-pct {
+  width: 44px;
+  font-size: 21px;
+  font-weight: 600;
+  color: #f4cd64;
+  flex-shrink: 0;
+}

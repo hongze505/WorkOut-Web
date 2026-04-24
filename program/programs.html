@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>訓練計畫 — KATACHI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;1,200;1,300&family=Noto+Sans+JP:wght@100;200;300&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="programs.css">
+</head>
+<body>
+
+  <!-- ══════ BYOBU ══════ -->
+  <div id="byobu">
+    <div id="byobu-left"></div>
+    <div id="byobu-right"></div>
+  </div>
+
+  <!-- ══════ MENU ══════ -->
+  <div id="menu-content">
+    <div class="mc-left">
+      <ul class="mc-links">
+        <li class="mc-item"><a class="mc-link" href="#"><span class="mc-num">01</span><span class="mc-text-wrap"><span class="mc-text">肌肉百科</span></span><span class="mc-en">Muscle Wiki</span></a></li>
+        <li class="mc-item"><a class="mc-link" href="#"><span class="mc-num">02</span><span class="mc-text-wrap"><span class="mc-text">動作教學</span></span><span class="mc-en">Exercises</span></a></li>
+        <li class="mc-item"><a class="mc-link" href="programs.html" onclick="closeMenu()"><span class="mc-num">03</span><span class="mc-text-wrap"><span class="mc-text">訓練計畫</span></span><span class="mc-en">Programs</span></a></li>
+        <li class="mc-item"><a class="mc-link" href="#"><span class="mc-num">04</span><span class="mc-text-wrap"><span class="mc-text">飲食計算</span></span><span class="mc-en">Nutrition</span></a></li>
+        <li class="mc-item"><a class="mc-link" href="#"><span class="mc-num">05</span><span class="mc-text-wrap"><span class="mc-text">商店 / 會員</span></span><span class="mc-en">Shop</span></a></li>
+      </ul>
+    </div>
+    <div class="mc-right">
+      <div class="mc-quote">精準的訓練，<br>始於對身體<br>的理解</div>
+    </div>
+    <button class="mc-close" onclick="closeMenu()"><span class="mc-close-x"></span>Close</button>
+  </div>
+
+  <!-- ══════ NAV ══════ -->
+  <nav id="nav" class="visible">
+    <a class="nav-logo" href="../katachi首頁/katachi-index.html">KATACH<span class="dumbbell-i">
+      <svg viewBox="0 0 28 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="0" width="24" height="7" rx="1.5" fill="currentColor"/>
+        <rect x="0" y="9" width="28" height="9" rx="2" fill="currentColor"/>
+        <rect x="11" y="20" width="6" height="40" fill="currentColor"/>
+        <rect x="0" y="62" width="28" height="9" rx="2" fill="currentColor"/>
+        <rect x="2" y="73" width="24" height="7" rx="1.5" fill="currentColor"/>
+      </svg>
+    </span></a>
+    <ul class="nav-links">
+      <li><a href="#">肌肉百科</a></li>
+      <li><a href="#">動作教學</a></li>
+      <li><a href="programs.html" class="nav-active">訓練計畫</a></li>
+      <li><a href="#">飲食</a></li>
+      <li><a href="#">商店</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-user" href="#" title="會員登入">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="6" r="3.25" stroke="currentColor" stroke-width="2"/>
+          <path d="M1.5 17c0-4.142 3.358-7.5 7.5-7.5s7.5 3.358 7.5 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <button id="menu-btn" onclick="openMenu()">
+        <span class="menu-lines"><span class="menu-line"></span><span class="menu-line"></span></span>
+        <span class="menu-btn-text">Menu</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════ HERO ══════ -->
+  <header id="programs-hero">
+    <div class="ph-inner">
+      <p class="ph-eyebrow">Personal Training Program</p>
+      <h1 class="ph-title">PROGRAM<br>GENERATOR</h1>
+      <p class="ph-sub">為你的目標 · 科學化週期訓練</p>
+    </div>
+    <div class="ph-scroll">
+      <span class="scroll-text">Scroll</span>
+      <div class="scroll-line"><div class="scroll-dot"></div></div>
+    </div>
+  </header>
+
+  <!-- ══════ MAIN CONTENT ══════ -->
+  <div id="main-content">
+
+    <!-- ══════ STEP 1 — 條件輸入 ══════ -->
+    <section id="sec-form">
+      <div class="form-layout">
+
+        <!-- 左側標題 -->
+        <div class="form-intro">
+          <p class="form-eyebrow">Step 01</p>
+          <h2 class="form-title"><span>填寫你的訓練條件</span>BUILD<br>YOUR<br>PLAN</h2>
+          <p class="form-desc">根據你的目標、程度與可用資源，系統將依據科學化的週期訓練原則，產生一份專屬週課表。</p>
+          <div class="form-note">
+            <span class="form-note-icon">*</span>
+            動作資料將於後端 API 串接後同步更新
+          </div>
+        </div>
+
+        <!-- 右側表單 -->
+        <div class="form-fields">
+
+          <!-- 訓練目標 -->
+          <div class="field-group">
+            <p class="field-label">訓練目標</p>
+            <div class="field-cards" id="goal-cards">
+              <button class="field-card active" data-val="hypertrophy" onclick="selectCard('goal', this)">
+                <span class="card-en">Hypertrophy</span>
+                <span class="card-zh">增肌</span>
+                <span class="card-desc">8–12 次 · 高容量</span>
+              </button>
+              <button class="field-card" data-val="strength" onclick="selectCard('goal', this)">
+                <span class="card-en">Strength</span>
+                <span class="card-zh">增力</span>
+                <span class="card-desc">3–5 次 · 大重量</span>
+              </button>
+              <button class="field-card" data-val="fatloss" onclick="selectCard('goal', this)">
+                <span class="card-en">Fat Loss</span>
+                <span class="card-zh">減脂</span>
+                <span class="card-desc">15–20 次 · 超組</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 訓練程度 -->
+          <div class="field-group">
+            <p class="field-label">訓練程度</p>
+            <div class="field-cards" id="level-cards">
+              <button class="field-card active" data-val="beginner" onclick="selectCard('level', this)">
+                <span class="card-en">Beginner</span>
+                <span class="card-zh">初學者</span>
+                <span class="card-desc">訓練 &lt; 1 年</span>
+              </button>
+              <button class="field-card" data-val="intermediate" onclick="selectCard('level', this)">
+                <span class="card-en">Intermediate</span>
+                <span class="card-zh">中階</span>
+                <span class="card-desc">訓練 1–3 年</span>
+              </button>
+              <button class="field-card" data-val="advanced" onclick="selectCard('level', this)">
+                <span class="card-en">Advanced</span>
+                <span class="card-zh">進階</span>
+                <span class="card-desc">訓練 3 年以上</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 每週天數 + 每次時間 -->
+          <div class="field-row-2">
+            <div class="field-group">
+              <p class="field-label">每週訓練天數</p>
+              <div class="field-stepper">
+                <button class="stepper-btn" onclick="stepperChange('days', -1)">−</button>
+                <span class="stepper-val" id="days-val">4</span>
+                <span class="stepper-unit">天 / 週</span>
+                <button class="stepper-btn" onclick="stepperChange('days', 1)">+</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <p class="field-label">每次訓練時間</p>
+              <div class="field-chips" id="duration-chips">
+                <button class="chip" data-val="30" onclick="selectChip('duration', this)">30 分</button>
+                <button class="chip" data-val="45" onclick="selectChip('duration', this)">45 分</button>
+                <button class="chip active" data-val="60" onclick="selectChip('duration', this)">60 分</button>
+                <button class="chip" data-val="90" onclick="selectChip('duration', this)">90 分</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 可用器材 -->
+          <div class="field-group">
+            <p class="field-label">可用器材 <span class="field-label-hint">（可複選）</span></p>
+            <div class="field-equipment" id="equipment-chips">
+              <!-- 槓鈴 -->
+              <button class="equip-btn active" data-val="barbell" onclick="toggleEquip(this)">
+                <span class="equip-icon">
+                  <svg viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="9" width="5" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="5" y="7" width="4" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="9" y="10" width="30" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="39" y="7" width="4" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="43" y="9" width="5" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </span>
+                <span class="equip-name">槓鈴</span>
+                <span class="equip-en">Barbell</span>
+              </button>
+              <!-- 啞鈴 -->
+              <button class="equip-btn active" data-val="dumbbell" onclick="toggleEquip(this)">
+                <span class="equip-icon">
+                  <svg viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="9" width="4" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="4" y="7" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="7" y="10.5" width="14" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="21" y="7" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="24" y="9" width="4" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <!-- 第二個啞鈴（右側，偏移） -->
+                    <rect x="20" y="9" width="4" height="6" rx="1" stroke="currentColor" stroke-width="1.5" opacity="0"/>
+                  </svg>
+                </span>
+                <span class="equip-name">啞鈴</span>
+                <span class="equip-en">Dumbbell</span>
+              </button>
+              <!-- 機械式 -->
+              <button class="equip-btn" data-val="machine" onclick="toggleEquip(this)">
+                <span class="equip-icon">
+                  <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 重量疊片 -->
+                    <rect x="16" y="2"  width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="16" y="8"  width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <rect x="16" y="14" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                    <!-- 中柱 -->
+                    <line x1="24" y1="2" x2="24" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- 底座 -->
+                    <line x1="8" y1="30" x2="40" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="equip-name">機械式</span>
+                <span class="equip-en">Machine</span>
+              </button>
+              <!-- 徒手 -->
+              <button class="equip-btn" data-val="bodyweight" onclick="toggleEquip(this)">
+                <span class="equip-icon">
+                  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 頭 -->
+                    <circle cx="16" cy="5" r="4" stroke="currentColor" stroke-width="1.5"/>
+                    <!-- 身體 -->
+                    <line x1="16" y1="9" x2="16" y2="24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- 手臂（展開） -->
+                    <line x1="4" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <!-- 腿 -->
+                    <line x1="16" y1="24" x2="8"  y2="38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="16" y1="24" x2="24" y2="38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="equip-name">徒手</span>
+                <span class="equip-en">Bodyweight</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 產生按鈕 -->
+          <button class="generate-btn" onclick="generatePlan()">
+            <span class="generate-btn-text">產生訓練計畫</span>
+            <span class="generate-btn-arrow"></span>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════ STEP 2 — 計畫結果 ══════ -->
+    <section id="sec-result" class="hidden">
+
+      <!-- 結果標題列 -->
+      <div class="result-header">
+        <div>
+          <p class="result-eyebrow" id="result-eyebrow">Personal Program</p>
+          <h2 class="result-title" id="result-title">—</h2>
+        </div>
+        <div class="result-meta" id="result-meta"></div>
+        <button class="result-reset-btn" onclick="resetPlan()">
+          重新設定
+          <span class="result-reset-arrow"></span>
+        </button>
+      </div>
+
+      <!-- 週課表 -->
+      <div class="week-schedule" id="week-schedule"></div>
+
+      <!-- 每日動作明細 -->
+      <div class="daily-detail" id="daily-detail"></div>
+
+    </section>
+
+  </div>
+
+  <!-- 跑馬燈 -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Hypertrophy <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Strength <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Fat Loss <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Programs <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Hypertrophy <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Strength <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Fat Loss <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Programs <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">KATACHI</div>
+        <p class="footer-tagline">精準的訓練，始於對身體的理解。每一組動作都應有其意義。</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link">IG</a>
+          <a href="#" class="footer-social-link">YT</a>
+          <a href="#" class="footer-social-link">FB</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">功能</p>
+        <ul class="footer-links">
+          <li><a href="#">肌肉百科</a></li>
+          <li><a href="#">動作教學</a></li>
+          <li><a href="programs.html">訓練計畫</a></li>
+          <li><a href="#">飲食計算</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">計算工具</p>
+        <ul class="footer-links">
+          <li><a href="#">1RM 計算器</a></li>
+          <li><a href="#">BMI 計算器</a></li>
+          <li><a href="#">TDEE 計算器</a></li>
+          <li><a href="#">強度百分比表</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">會員</p>
+        <ul class="footer-links">
+          <li><a href="#">登入 / 註冊</a></li>
+          <li><a href="#">訓練日誌</a></li>
+          <li><a href="#">進度追蹤</a></li>
+          <li><a href="#">個人儀表板</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 KATACHI. All rights reserved.</span>
+      <span class="footer-jp">形 · 重訓訓練百科</span>
+      <button class="footer-scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <span class="footer-scroll-arr"></span>Back to top
+      </button>
+    </div>
+  </footer>
+
+<script>
+/* ════════ NAV ════════ */
+const byobu = document.getElementById('byobu');
+const menuContent = document.getElementById('menu-content');
+function openMenu() {
+  byobu.style.pointerEvents = 'all';
+  byobu.classList.remove('closing');
+  byobu.classList.add('open');
+  setTimeout(() => menuContent.classList.add('open'), 400);
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  const closeBtn = document.querySelector('.mc-close');
+  if (closeBtn) { closeBtn.classList.add('spinning'); setTimeout(() => closeBtn.classList.remove('spinning'), 400); }
+  menuContent.classList.remove('open');
+  byobu.classList.remove('open');
+  byobu.classList.add('closing');
+  setTimeout(() => { byobu.style.pointerEvents = 'none'; byobu.classList.remove('closing'); document.body.style.overflow = ''; }, 800);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+const navbar = document.getElementById('nav');
+window.addEventListener('scroll', () => { navbar.classList.toggle('shrink', window.scrollY > 50); });
+
+/* ════════ 表單狀態 ════════ */
+const form = {
+  goal:      'hypertrophy',
+  level:     'beginner',
+  days:      4,
+  duration:  60,
+  equipment: ['barbell', 'dumbbell'],
+};
+
+function selectCard(type, el) {
+  el.closest('.field-cards').querySelectorAll('.field-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  form[type] = el.dataset.val;
+}
+
+function selectChip(type, el) {
+  el.closest('.field-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  form[type] = parseInt(el.dataset.val);
+}
+
+function toggleEquip(el) {
+  const val = el.dataset.val;
+  el.classList.toggle('active');
+  if (el.classList.contains('active')) {
+    form.equipment.push(val);
+  } else {
+    form.equipment = form.equipment.filter(e => e !== val);
+  }
+}
+
+const stepperMin = { days: 2 };
+const stepperMax = { days: 6 };
+function stepperChange(key, delta) {
+  form[key] = Math.min(stepperMax[key], Math.max(stepperMin[key], form[key] + delta));
+  document.getElementById(`${key}-val`).textContent = form[key];
+}
+
+/* ════════════════════════════════════════
+   假資料庫
+   TODO: 替換為 fetch('/api/exercises?equipment=...&muscle=...')
+════════════════════════════════════════ */
+const EXERCISE_DB = {
+  chest:     { barbell:['槓鈴臥推','上斜槓鈴臥推'], dumbbell:['啞鈴臥推','啞鈴飛鳥'], machine:['蝴蝶機夾胸','史密斯臥推'], bodyweight:['伏地挺身','寬距伏地挺身'] },
+  back:      { barbell:['槓鈴硬拉','槓鈴划船'], dumbbell:['啞鈴單臂划船','啞鈴直腿硬拉'], machine:['滑輪下拉','坐姿划船機'], bodyweight:['引體向上','反手引體向上'] },
+  legs:      { barbell:['槓鈴深蹲','前蹲舉'], dumbbell:['啞鈴弓步','啞鈴羅馬尼亞硬拉'], machine:['腿推機','腿伸屈機'], bodyweight:['徒手深蹲','保加利亞分腿蹲'] },
+  shoulders: { barbell:['槓鈴肩推','直立划船'], dumbbell:['啞鈴側平舉','啞鈴肩推'], machine:['機械肩推','機械側平舉'], bodyweight:['倒立伏地挺身','前平舉'] },
+  arms:      { barbell:['槓鈴彎舉','槓鈴三頭下壓'], dumbbell:['啞鈴彎舉','啞鈴錘式彎舉'], machine:['滑輪彎舉','繩索三頭下壓'], bodyweight:['窄距伏地挺身','反向彎舉'] },
+  core:      { barbell:['槓片仰臥起坐'], dumbbell:['啞鈴側彎'], machine:['繩索捲腹'], bodyweight:['捲腹','棒式','俄羅斯轉體'] },
+};
+
+// 依目標決定組數/次數
+const PRESCRIPTION = {
+  hypertrophy: { sets: 4, reps: '8–12', rest: '60–90 秒', intensity: '中等重量' },
+  strength:    { sets: 5, reps: '3–5',  rest: '3–5 分鐘',  intensity: '大重量' },
+  fatloss:     { sets: 3, reps: '15–20', rest: '30–45 秒', intensity: '輕重量' },
+};
+
+// 依天數決定分化方式
+const SPLITS = {
+  2: ['全身 A', '全身 B'],
+  3: ['推 (胸/肩/三頭)', '拉 (背/二頭)', '腿'],
+  4: ['上肢推', '下肢', '上肢拉', '下肢 + 核心'],
+  5: ['胸', '背', '腿', '肩 + 手臂', '全身 / 弱點'],
+  6: ['胸', '背', '腿', '肩', '手臂', '全身 / 弱點'],
+};
+
+// 每個分化對應的肌群
+const SPLIT_MUSCLES = {
+  '全身 A':          ['chest','back','legs','core'],
+  '全身 B':          ['shoulders','back','legs','arms'],
+  '推 (胸/肩/三頭)': ['chest','shoulders','arms'],
+  '拉 (背/二頭)':    ['back','arms'],
+  '腿':              ['legs','core'],
+  '上肢推':          ['chest','shoulders','arms'],
+  '下肢':            ['legs'],
+  '上肢拉':          ['back','arms'],
+  '下肢 + 核心':     ['legs','core'],
+  '胸':              ['chest'],
+  '背':              ['back'],
+  '肩':              ['shoulders'],
+  '肩 + 手臂':       ['shoulders','arms'],
+  '手臂':            ['arms'],
+  '全身 / 弱點':     ['chest','back','legs'],
+};
+
+function getExercises(muscle, equipment) {
+  const pool = [];
+  equipment.forEach(eq => {
+    if (EXERCISE_DB[muscle]?.[eq]) pool.push(...EXERCISE_DB[muscle][eq]);
+  });
+  // 去重後隨機取最多 2 個
+  const unique = [...new Set(pool)];
+  return unique.sort(() => Math.random() - 0.5).slice(0, 2);
+}
+
+/* ════════ 產生計畫 ════════ */
+function generatePlan() {
+  if (form.equipment.length === 0) { showToast('請至少選擇一種器材'); return; }
+
+  const equip = form.equipment;
+  const pres  = PRESCRIPTION[form.goal];
+  const split = SPLITS[form.days] || SPLITS[4];
+  const days  = ['一','二','三','四','五','六','日'];
+
+  // 建立週課表 + 動作
+  const weekDays = [];
+  let dayIdx = 0;
+  for (let i = 0; i < 7; i++) {
+    if (dayIdx < split.length) {
+      const splitName = split[dayIdx];
+      const muscles   = SPLIT_MUSCLES[splitName] || [];
+      const exercises = [];
+      muscles.forEach(m => {
+        const exs = getExercises(m, equip);
+        exs.forEach(ex => exercises.push({ name: ex, muscle: m, sets: pres.sets, reps: pres.reps, rest: pres.rest }));
+      });
+      weekDays.push({ day: days[i], label: `週${days[i]}`, split: splitName, exercises, isRest: false });
+      dayIdx++;
+    } else {
+      weekDays.push({ day: days[i], label: `週${days[i]}`, split: '休息', exercises: [], isRest: true });
+    }
+  }
+
+  renderResult(weekDays, pres);
+}
+
+/* ════════ 渲染結果 ════════ */
+function renderResult(weekDays, pres) {
+  const goalMap  = { hypertrophy:'增肌計畫', strength:'增力計畫', fatloss:'減脂計畫' };
+  const levelMap = { beginner:'初學者', intermediate:'中階', advanced:'進階' };
+  const equipMap = { barbell:'槓鈴', dumbbell:'啞鈴', machine:'機械式', bodyweight:'徒手' };
+
+  document.getElementById('result-eyebrow').textContent = `${levelMap[form.level]} · Personal Program`;
+  document.getElementById('result-title').textContent   = goalMap[form.goal];
+  document.getElementById('result-meta').innerHTML = `
+    <div class="meta-tag">${form.days} 天 / 週</div>
+    <div class="meta-tag">${form.duration} 分鐘</div>
+    <div class="meta-tag">${pres.sets} 組 × ${pres.reps} 次</div>
+    <div class="meta-tag">${form.equipment.map(e => equipMap[e]).join(' · ')}</div>
+  `;
+
+  // 週課表
+  document.getElementById('week-schedule').innerHTML = weekDays.map((d, i) => `
+    <div class="week-card ${d.isRest ? 'rest' : ''}" onclick="${d.isRest ? '' : `scrollToDay(${i})`}">
+      <span class="week-card-label">${d.label}</span>
+      <span class="week-card-split">${d.split}</span>
+      ${!d.isRest ? `<span class="week-card-count">${d.exercises.length} 個動作</span>` : ''}
+    </div>
+  `).join('');
+
+  // 每日動作明細
+  const activeDays = weekDays.filter(d => !d.isRest);
+  document.getElementById('daily-detail').innerHTML = activeDays.map((d, i) => `
+    <div class="day-detail" id="day-detail-${i}">
+      <div class="day-detail-header">
+        <div>
+          <span class="day-detail-label">週${d.day}</span>
+          <h3 class="day-detail-split">${d.split}</h3>
+        </div>
+        <span class="day-detail-count">${d.exercises.length} 個動作 · ${pres.rest} 休息</span>
+      </div>
+      <div class="exercise-list">
+        ${d.exercises.map((ex, j) => `
+          <div class="exercise-row">
+            <span class="ex-num">${String(j+1).padStart(2,'0')}</span>
+            <div class="ex-info">
+              <span class="ex-name">${ex.name}</span>
+              <span class="ex-muscle">${muscleZH(ex.muscle)}</span>
+            </div>
+            <div class="ex-scheme">
+              <span class="ex-sets">${ex.sets}</span>
+              <span class="ex-x">×</span>
+              <span class="ex-reps">${ex.reps}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // 顯示結果區
+  document.getElementById('sec-result').classList.remove('hidden');
+  document.getElementById('sec-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function muscleZH(key) {
+  const map = { chest:'胸', back:'背', legs:'腿', shoulders:'肩', arms:'手臂', core:'核心' };
+  return map[key] || key;
+}
+
+function scrollToDay(i) {
+  const el = document.getElementById(`day-detail-${i}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetPlan() {
+  document.getElementById('sec-result').classList.add('hidden');
+  document.getElementById('sec-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ════════ Toast ════════ */
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+</script>
+
+</body>
+</html>

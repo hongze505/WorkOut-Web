@@ -210,14 +210,10 @@ html.intro-active { scrollbar-color: transparent transparent; }
   align-items: center;
   list-style: none;
   opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  max-width: 0;
-  overflow: hidden;
-  transition: opacity 0.3s ease 0.2s,
-                visibility 0.3s ease 0.2s,
-                transform 0.3s ease 0.2s,
-                max-width 0.4s ease;
+  transition: opacity 0.4s ease 0.3s; /* 比 nav 晚 0.3s 淡入 */
+}
+#nav.visible .nav-links {
+  opacity: 1;
 }
 
 .nav-links a {
