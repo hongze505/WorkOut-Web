@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API × CORS × Program.cs</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Serif+TC:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0f14;
+            --surface: #13161e;
+            --surface2: #1a1e2a;
+            --border: #252a38;
+            --accent: #5af0c4;
+            --accent2: #f05a7e;
+            --accent3: #f0c05a;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --code-bg: #0a0c10;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        /* ─── noise overlay ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── header ─── */
+        header {
+            text-align: center;
+            margin-bottom: 72px;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.15;
+        }
+
+        h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 12px;
+        }
+
+        /* ─── nav tabs ─── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 6px;
+            margin-bottom: 48px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--surface2);
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--text);
+        }
+
+        /* ─── panels ─── */
+        .panel {
+            display: none;
+            animation: fadeIn .3s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── section titles ─── */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 24px 0 10px;
+            color: var(--accent3);
+        }
+
+        p {
+            color: #a8b4c8;
+            margin-bottom: 12px;
+        }
+
+        /* ─── code blocks ─── */
+        .code-wrap {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--muted);
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 3px 10px;
+            border-radius: 0 8px 0 8px;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px 20px 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .kw {
+            color: #c792ea;
+        }
+
+        .fn {
+            color: #82aaff;
+        }
+
+        .str {
+            color: #c3e88d;
+        }
+
+        .cmt {
+            color: #546e7a;
+            font-style: italic;
+        }
+
+        .num {
+            color: #f78c6c;
+        }
+
+        .type {
+            color: #ffcb6b;
+        }
+
+        .prop {
+            color: #80cbc4;
+        }
+
+        .hdr {
+            color: var(--accent2);
+        }
+
+        .val {
+            color: var(--accent);
+        }
+
+        /* ─── diagram boxes ─── */
+        .flow {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            margin: 20px 0;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .box.green {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .box.red {
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+
+        .box.yellow {
+            border-color: var(--accent3);
+            color: var(--accent3);
+        }
+
+        .arrow {
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        .badge-get {
+            background: #1a3a2a;
+            color: var(--accent);
+        }
+
+        .badge-post {
+            background: #2a2a1a;
+            color: var(--accent3);
+        }
+
+        .badge-opt {
+            background: #2a1a2a;
+            color: #c792ea;
+        }
+
+        /* ─── info cards ─── */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            transition: border-color .2s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* ─── callout ─── */
+        .callout {
+            border-left: 3px solid var(--accent);
+            background: #0f1f1a;
+            border-radius: 0 10px 10px 0;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+
+        .callout.warn {
+            border-color: var(--accent3);
+            background: #1a180f;
+        }
+
+        .callout.err {
+            border-color: var(--accent2);
+            background: #1a0f0f;
+        }
+
+        .callout strong {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .callout.warn strong {
+            color: var(--accent3);
+        }
+
+        .callout.err strong {
+            color: var(--accent2);
+        }
+
+        .callout p {
+            color: #a8b4c8;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        /* ─── table ─── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        th {
+            background: var(--surface2);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            color: #a8b4c8;
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: var(--surface);
+        }
+
+        /* ─── responsive ─── */
+        @media(max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .flow-row {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <span class="tag">KATACHI — 網路請求基礎</span>
+            <h1>Fetch API × CORS<br><em>× HTTP Origin</em></h1>
+            <p class="subtitle">前端如何與 ASP.NET Core 後端溝通的完整圖解</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('fetch')">Fetch API</button>
+            <button class="tab-btn" onclick="switchTab('cors')">CORS 機制</button>
+            <button class="tab-btn" onclick="switchTab('origin')">HTTP Origin</button>
+            <button class="tab-btn" onclick="switchTab('programcs')">Program.cs 設定</button>
+        </div>
+
+        <!-- ══════════════ FETCH API ══════════════ -->
+        <div id="tab-fetch" class="panel active">
+
+            <div class="section">
+                <div class="section-title">核心概念</div>
+                <h2>Fetch API 是什麼？</h2>
+                <p>Fetch API 是瀏覽器內建的現代 HTTP 客戶端，取代舊式的 <code>XMLHttpRequest</code>。它以 <strong>Promise</strong>
+                    為基礎，讓非同步請求的寫法更簡潔。</p>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-icon">📦</div>
+                        <div class="card-title">Request 物件</div>
+                        <p>描述「我要發出什麼樣的請求」，包含 URL、method、headers、body 等設定。</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📬</div>
+                        <div class="card-title">Response 物件</div>
+                        <p>描述「伺服器回傳了什麼」，包含 status、headers，以及讀取 body 的方法。</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔑</div>
+                        <div class="card-title">Headers 物件</div>
+                        <p>用來操作 HTTP 標頭的容器，支援 <code>get/set/append/has</code> 等方法。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">基本用法</div>
+                <h3>GET 請求</h3>
+                <div class="code-wrap">
+                    <span class="code-label">JavaScript</span>
+                    <pre><span class="cmt">// 最簡單的 GET 請求</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://localhost:7001/api/exercises'</span>);
+
+<span class="cmt">// response 是 Response 物件，需要再解析 body</span>
+<span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();   <span class="cmt">// 解析 JSON</span>
+<span class="cmt">// const text = await response.text();  解析純文字</span>
+console.<span class="fn">log</span>(data);
+</pre>
+                </div>
+
+                <h3>POST 請求（帶 JSON Body）</h3>
+                <div class="code-wrap">
+                    <span class="code-label">JavaScript</span>
+                    <pre><span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://localhost:7001/api/exercises'</span>, {
+  method: <span class="str">'POST'</span>,
+  headers: {
+    <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+  },
+  body: <span class="type">JSON</span>.<span class="fn">stringify</span>({
+    name: <span class="str">'深蹲'</span>,
+    category: <span class="str">'腿部'</span>
+  })
+});
+
+<span class="kw">if</span> (!response.ok) {
+  <span class="kmt">// response.ok 為 true 代表 status 在 200–299 之間</span>
+  <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">`HTTP error! status: <span class="val">${response.status}</span>`</span>);
+}
+<span class="kw">const</span> created = <span class="kw">await</span> response.<span class="fn">json</span>();
+</pre>
+                </div>
+
+                <h3>使用 Request 物件（進階）</h3>
+                <div class="code-wrap">
+                    <span class="code-label">JavaScript</span>
+                    <pre><span class="cmt">// 先建立 Request 物件，再傳給 fetch</span>
+<span class="kw">const</span> req = <span class="kw">new</span> <span class="type">Request</span>(<span class="str">'https://localhost:7001/api/exercises'</span>, {
+  method: <span class="str">'GET'</span>,
+  headers: <span class="kw">new</span> <span class="type">Headers</span>({ <span class="str">'Accept'</span>: <span class="str">'application/json'</span> }),
+  mode: <span class="str">'cors'</span>          <span class="cmt">// 跨來源請求（預設值）</span>
+});
+
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(req);
+</pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Response 物件重要屬性</div>
+                <table>
+                    <tr>
+                        <th>屬性 / 方法</th>
+                        <th>型別</th>
+                        <th>說明</th>
+                    </tr>
+                    <tr>
+                        <td><code>.status</code></td>
+                        <td>number</td>
+                        <td>HTTP 狀態碼，例如 200、404、500</td>
+                    </tr>
+                    <tr>
+                        <td><code>.ok</code></td>
+                        <td>boolean</td>
+                        <td>status 在 200–299 之間則為 true</td>
+                    </tr>
+                    <tr>
+                        <td><code>.headers</code></td>
+                        <td>Headers</td>
+                        <td>回應標頭物件</td>
+                    </tr>
+                    <tr>
+                        <td><code>.url</code></td>
+                        <td>string</td>
+                        <td>最終請求的 URL（可能經過重新導向）</td>
+                    </tr>
+                    <tr>
+                        <td><code>.json()</code></td>
+                        <td>Promise</td>
+                        <td>將 body 解析為 JSON 物件</td>
+                    </tr>
+                    <tr>
+                        <td><code>.text()</code></td>
+                        <td>Promise</td>
+                        <td>將 body 解析為純文字字串</td>
+                    </tr>
+                    <tr>
+                        <td><code>.blob()</code></td>
+                        <td>Promise</td>
+                        <td>將 body 解析為 Blob（二進位）</td>
+                    </tr>
+                </table>
+
+                <div class="callout warn">
+                    <strong>⚠️ 注意</strong>
+                    <p>fetch() 只有在「網路錯誤」或請求被中斷時才會 reject Promise。<br>就算伺服器回傳 404 或 500，Promise 仍然是 resolve。必須手動檢查
+                        <code>response.ok</code>。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════ CORS ══════════════ -->
+        <div id="tab-cors" class="panel">
+
+            <div class="section">
+                <div class="section-title">同源政策 & CORS</div>
+                <h2>為什麼需要 CORS？</h2>
+                <p>瀏覽器預設有<strong>同源政策（Same-Origin Policy）</strong>：網頁只能向「同一來源」發出完整的 HTTP 請求。來源（Origin）由三部分組成：</p>
+
+                <div class="flow">
+                    <div class="flow-row">
+                        <div class="box yellow">通訊協定<br><small>https://</small></div>
+                        <span class="arrow">+</span>
+                        <div class="box green">網域<br><small>localhost</small></div>
+                        <span class="arrow">+</span>
+                        <div class="box red">埠號<br><small>:5500</small></div>
+                        <span class="arrow">=</span>
+                        <div class="box" style="color:var(--text)">Origin<br><small>https://localhost:5500</small></div>
+                    </div>
+                    <p style="font-size:13px; color: var(--muted); margin-top: 8px;">任何一個不同 → 不同來源 → 瀏覽器阻擋</p>
+                </div>
+
+                <p><strong>CORS（跨來源資源共享）</strong>是一種讓伺服器「授權」特定外來 Origin 的機制。後端透過回應標頭告訴瀏覽器：「這個來源我允許存取。」</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">CORS 請求流程</div>
+                <h3>簡單請求（Simple Request）</h3>
+                <p>符合條件（GET/HEAD/POST + 特定 Content-Type）的請求，瀏覽器直接發出，伺服器在回應中附上授權標頭。</p>
+
+                <div class="flow">
+                    <div class="flow-row">
+                        <div class="box green">瀏覽器<br><small>:5500</small></div>
+                        <span class="arrow">──<span class="badge badge-get">GET</span>──▶</span>
+                        <div class="box yellow">ASP.NET<br><small>:7001</small></div>
+                    </div>
+                    <div class="flow-row" style="margin-top:6px">
+                        <div class="box green">瀏覽器 ✅</div>
+                        <span class="arrow">◀── 200 + <span class="hdr">Access-Control-Allow-Origin</span>: <span
+                                class="val">*</span> ──</span>
+                        <div class="box yellow">ASP.NET</div>
+                    </div>
+                </div>
+
+                <h3>預檢請求（Preflight Request）</h3>
+                <p>非簡單請求（如 PUT/DELETE，或帶有自定義標頭）會先發一個 <strong>OPTIONS</strong> 請求詢問伺服器是否允許，通過後才發送實際請求。</p>
+
+                <div class="flow">
+                    <div class="flow-row">
+                        <div class="box green">瀏覽器</div>
+                        <span class="arrow">──<span class="badge badge-opt">OPTIONS</span> 預檢──▶</span>
+                        <div class="box yellow">ASP.NET</div>
+                    </div>
+                    <div class="flow-row" style="margin-top:4px">
+                        <div class="box green">瀏覽器</div>
+                        <span class="arrow">◀── 204 + CORS 標頭 ──</span>
+                        <div class="box yellow">ASP.NET ✅</div>
+                    </div>
+                    <div class="flow-row" style="margin-top:4px">
+                        <div class="box green">瀏覽器</div>
+                        <span class="arrow">──<span class="badge badge-post">PUT</span> 實際請求──▶</span>
+                        <div class="box yellow">ASP.NET</div>
+                    </div>
+                    <div class="flow-row" style="margin-top:4px">
+                        <div class="box green">瀏覽器 ✅</div>
+                        <span class="arrow">◀── 200 回應 ──</span>
+                        <div class="box yellow">ASP.NET</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">CORS 回應標頭</div>
+                <table>
+                    <tr>
+                        <th>標頭</th>
+                        <th>作用</th>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Access-Control-Allow-Origin</code></td>
+                        <td>允許的 Origin，可指定特定來源或 <code>*</code>（萬用，但不能與 credentials 同用）</td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Access-Control-Allow-Methods</code></td>
+                        <td>允許的 HTTP 方法，如 <code>GET, POST, PUT, DELETE</code></td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Access-Control-Allow-Headers</code></td>
+                        <td>允許的請求標頭，如 <code>Content-Type, Authorization</code></td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Access-Control-Max-Age</code></td>
+                        <td>預檢結果快取秒數（避免每次都預檢）</td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Access-Control-Allow-Credentials</code></td>
+                        <td>是否允許攜帶 Cookie，設為 <code>true</code> 時 Origin 不能用 <code>*</code></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- ══════════════ HTTP ORIGIN ══════════════ -->
+        <div id="tab-origin" class="panel">
+
+            <div class="section">
+                <div class="section-title">Origin 請求標頭</div>
+                <h2>Origin 標頭的語意</h2>
+                <p>瀏覽器在發出<strong>跨來源請求</strong>時，會自動在請求中附上 <code class="hdr">Origin</code> 標頭，告訴伺服器「這個請求從哪裡來」。</p>
+
+                <div class="code-wrap">
+                    <span class="code-label">HTTP Request Headers</span>
+                    <pre><span class="hdr">Origin</span>: <span class="val">https://localhost:5500</span>
+<span class="hdr">Host</span>: <span class="val">localhost:7001</span>
+<span class="hdr">Content-Type</span>: <span class="val">application/json</span>
+</pre>
+                </div>
+
+                <div class="callout">
+                    <strong>💡 重點</strong>
+                    <p>Origin 標頭只包含「協定 + 網域 + 埠號」，<strong>不包含路徑</strong>。它由瀏覽器自動加入，前端無法用 JS 覆寫此標頭（受瀏覽器安全限制保護）。</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Origin vs Referer vs Host</div>
+                <table>
+                    <tr>
+                        <th>標頭</th>
+                        <th>包含內容</th>
+                        <th>由誰設定</th>
+                        <th>可否偽造（前端）</th>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Origin</code></td>
+                        <td>協定 + 網域 + 埠</td>
+                        <td>瀏覽器（跨來源時）</td>
+                        <td>❌ 不可</td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Referer</code></td>
+                        <td>完整 URL（含路徑）</td>
+                        <td>瀏覽器</td>
+                        <td>❌ 不可（可被省略）</td>
+                    </tr>
+                    <tr>
+                        <td><code class="hdr">Host</code></td>
+                        <td>目標伺服器的網域 + 埠</td>
+                        <td>瀏覽器</td>
+                        <td>❌ 不可</td>
+                    </tr>
+                </table>
+
+                <h3>伺服器如何利用 Origin？</h3>
+                <p>ASP.NET Core 的 CORS 中介軟體會比對請求的 <code>Origin</code> 標頭與政策中設定的允許清單。若符合，才加入對應的
+                    <code>Access-Control-Allow-Origin</code> 回應標頭。</p>
+
+                <div class="flow">
+                    <div class="flow-row">
+                        <div class="box green">請求帶 <code>Origin: http://localhost:5500</code></div>
+                        <span class="arrow">──▶</span>
+                        <div class="box yellow">CORS 中介軟體</div>
+                    </div>
+                    <div class="flow-row"
+                        style="margin-top:10px; flex-direction:column; align-items:flex-start; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--muted)">在允許清單？</span>
+                            <div class="box green">是 → 加入 <code>Access-Control-Allow-Origin</code> 回應</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--muted)">不在清單？</span>
+                            <div class="box red">否 → 不加回應標頭，瀏覽器阻擋</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">特殊情況</div>
+                <h3>何時不會帶 Origin？</h3>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-icon">🔗</div>
+                        <div class="card-title">同源請求</div>
+                        <p>前後端同一 Origin，瀏覽器通常不加 Origin 標頭。</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📄</div>
+                        <div class="card-title">直接輸入 URL</div>
+                        <p>在瀏覽器網址列直接輸入，不帶 Origin。</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🛠️</div>
+                        <div class="card-title">Postman / curl</div>
+                        <p>不是瀏覽器環境，不自動帶 Origin，CORS 限制不適用。</p>
+                    </div>
+                </div>
+
+                <div class="callout warn">
+                    <strong>⚠️ CORS 只存在於瀏覽器</strong>
+                    <p>CORS 是瀏覽器的安全機制，不是伺服器防護。後端 API 本身沒有被「保護」，任何非瀏覽器工具（curl、Postman、伺服器對伺服器）都可以正常存取，不受 CORS 限制。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════ PROGRAM.CS ══════════════ -->
+        <div id="tab-programcs" class="panel">
+
+            <div class="section">
+                <div class="section-title">ASP.NET Core 設定</div>
+                <h2>Program.cs CORS 設定</h2>
+                <p>在 ASP.NET Core 中，CORS 透過<strong>中介軟體（Middleware）</strong>與<strong>政策（Policy）</strong>兩步驟設定。</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">完整範例</div>
+                <div class="code-wrap">
+                    <span class="code-label">Program.cs</span>
+                    <pre><span class="kw">var</span> builder = <span class="type">WebApplication</span>.<span class="fn">CreateBuilder</span>(args);
+
+<span class="cmt">// ① 定義 CORS 政策名稱（方便後續引用）</span>
+<span class="kw">const string</span> MyAllowedOrigins = <span class="str">"_myAllowedOrigins"</span>;
+
+<span class="cmt">// ② 註冊 CORS 服務並定義政策</span>
+builder.Services.<span class="fn">AddCors</span>(options =>
+{
+    options.<span class="fn">AddPolicy</span>(<span class="prop">name</span>: MyAllowedOrigins,
+        policy =>
+        {
+            policy
+                <span class="cmt">// 指定允許的 Origin（HTTP Origin 標頭的值）</span>
+                .<span class="fn">WithOrigins</span>(
+                    <span class="str">"http://localhost:5500"</span>,    <span class="cmt">// Live Server</span>
+                    <span class="str">"http://127.0.0.1:5500"</span>      <span class="cmt">// 同上，不同寫法</span>
+                )
+                <span class="cmt">// 允許的 HTTP 方法</span>
+                .<span class="fn">WithMethods</span>(<span class="str">"GET"</span>, <span class="str">"POST"</span>, <span class="str">"PUT"</span>, <span class="str">"DELETE"</span>)
+                <span class="cmt">// 允許前端帶的請求標頭</span>
+                .<span class="fn">WithHeaders</span>(<span class="str">"Content-Type"</span>, <span class="str">"Authorization"</span>)
+                <span class="cmt">// 若需要 Cookie，加此行（Origin 就不能用 AllowAnyOrigin）</span>
+                <span class="cmt">// .AllowCredentials()</span>
+                ;
+        });
+});
+
+builder.Services.<span class="fn">AddControllers</span>();
+
+<span class="kw">var</span> app = builder.<span class="fn">Build</span>();
+
+<span class="cmt">// ③ 加入 CORS 中介軟體（順序很重要！）</span>
+app.<span class="fn">UseHttpsRedirection</span>();
+app.<span class="fn">UseCors</span>(MyAllowedOrigins);   <span class="cmt">// ← 在 UseAuthorization 之前</span>
+app.<span class="fn">UseAuthorization</span>();
+
+app.<span class="fn">MapControllers</span>();
+app.<span class="fn">Run</span>();
+</pre>
+                </div>
+
+                <div class="callout err">
+                    <strong>🚨 中介軟體順序</strong>
+                    <p><code>UseCors()</code> 必須在 <code>UseRouting()</code> 之後、<code>UseAuthorization()</code>
+                        之前。順序錯誤會導致 CORS 標頭沒有正確加入回應。</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">常用政策寫法</div>
+
+                <h3>開發階段：允許所有來源（快速但不安全）</h3>
+                <div class="code-wrap">
+                    <span class="code-label">Program.cs（開發用）</span>
+                    <pre>policy
+    .<span class="fn">AllowAnyOrigin</span>()      <span class="cmt">// 等同於 Access-Control-Allow-Origin: *</span>
+    .<span class="fn">AllowAnyMethod</span>()
+    .<span class="fn">AllowAnyHeader</span>();
+</pre>
+                </div>
+
+                <h3>Attribute 方式（套用到特定 Controller）</h3>
+                <div class="code-wrap">
+                    <span class="code-label">ExerciseController.cs</span>
+                    <pre>[<span class="type">ApiController</span>]
+[<span class="type">Route</span>(<span class="str">"api/[controller]"</span>)]
+[<span class="type">EnableCors</span>(<span class="str">"_myAllowedOrigins"</span>)]   <span class="cmt">// 套用特定政策</span>
+<span class="kw">public class</span> <span class="type">ExerciseController</span> : <span class="type">ControllerBase</span>
+{
+    <span class="cmt">// ...</span>
+}
+</pre>
+                </div>
+
+                <div class="callout">
+                    <strong>💡 WithOrigins 與 Origin 標頭的關係</strong>
+                    <p>前端請求帶的 <code>Origin: http://localhost:5500</code> 標頭，會被 CORS 中介軟體與 <code>WithOrigins()</code>
+                        中的清單比對。<strong>完全符合（含協定與埠號）才算通過</strong>，大小寫不分，但斜線結尾有差異。</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">常見錯誤排查</div>
+                <table>
+                    <tr>
+                        <th>瀏覽器錯誤訊息</th>
+                        <th>可能原因</th>
+                        <th>解法</th>
+                    </tr>
+                    <tr>
+                        <td>No 'Access-Control-Allow-Origin' header</td>
+                        <td>後端沒有 UseCors，或 Origin 不在清單中</td>
+                        <td>確認 Program.cs 有加 <code>UseCors()</code>，且來源 URL 完全符合</td>
+                    </tr>
+                    <tr>
+                        <td>Method not allowed by CORS</td>
+                        <td>WithMethods 未包含該 HTTP 方法</td>
+                        <td>在政策中加入對應方法，如 <code>.WithMethods("DELETE")</code></td>
+                    </tr>
+                    <tr>
+                        <td>CORS with credentials 錯誤</td>
+                        <td>使用了 AllowAnyOrigin 又開啟 credentials</td>
+                        <td>改用 <code>WithOrigins()</code> 指定具體來源</td>
+                    </tr>
+                    <tr>
+                        <td>Postman 可以但瀏覽器不行</td>
+                        <td>正常！CORS 只作用於瀏覽器</td>
+                        <td>確認 Program.cs 的 CORS 設定後再用瀏覽器測試</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(name) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

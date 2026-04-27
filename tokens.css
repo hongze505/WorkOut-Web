@@ -61,7 +61,7 @@
   --text-h1:      3.2rem;   /* 各頁大標題 */
   --text-h2:      2rem;     /* 區塊標題 */
   --text-h3:      1.2rem;   /* 小標題 */
-  --text-body:    0.9rem;   /* 內文 */
+  --text-body:    1rem;   /* 內文 */
   --text-sub:     0.85rem;  /* 副標題（英文） */
   --text-sub-jp:  0.78rem;  /* 副標題（中日文） */
   --text-label:   1rem;   /* 標籤、nav 文字 */
