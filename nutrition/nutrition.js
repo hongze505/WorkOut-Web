@@ -1,12 +1,17 @@
-/* ════════ NAV ════════ */
+/* ════════ Menu ════════ */
 const byobu = document.getElementById("byobu");
-const menuContent = document.getElementById("menu-content");
+//選取 id="byobu" 的元素，存成變數方便之後重複使用
+const menuContent = document.querySelector("#menu-content");
 function openMenu() {
-  byobu.style.pointerEvents = "all";
   byobu.classList.remove("closing");
   byobu.classList.add("open");
+  //將byobu css屬性移除展開
   setTimeout(() => menuContent.classList.add("open"), 400);
+  //setTimeout有兩個參數
+  /*設定延遲時間 0.4秒 menuContent css屬性加上展開 menu-content 
+  css有設定 pointer-events: all; 接受所有的滑鼠滑鼠事件*/
   document.body.style.overflow = "hidden";
+  //menu展開時隱藏body內容
 }
 function closeMenu() {
   const closeBtn = document.querySelector(".mc-close");
@@ -21,11 +26,13 @@ function closeMenu() {
     byobu.style.pointerEvents = "none";
     byobu.classList.remove("closing");
     document.body.style.overflow = "";
-  }, 800);
+  }, 600);
 }
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeMenu();
 });
+
+/* ════════ Navbar ════════*/
 const navbar = document.getElementById("nav");
 window.addEventListener("scroll", () => {
   navbar.classList.toggle("shrink", window.scrollY > 50);
@@ -277,9 +284,11 @@ function showToast(msg) {
 
 /* ════════ 食物列表 ════════ */
 function renderFoodList(list) {
-  document.getElementById("food-list").innerHTML = list
-    .map(
-      (f) => `<div class="food-item">
+  document.getElementById("food-list").innerHTML =
+    // 把陣列每個元素轉成 HTML 字串
+    list
+      .map(
+        (f) => `<div class="food-item">
         <div class="food-item-info">
         <span class="food-item-name">${f.name}</span>
         <span class="food-item-en">${f.en}</span>
@@ -290,18 +299,21 @@ function renderFoodList(list) {
         </div>
         <button class="food-add-btn" onclick="addToLog(${f.id})">+</button>
         </div>`,
-    )
-    .join(""); 
+      )
+      // 把所有字串接起來（中間不加任何分隔）
+      .join("");
 }
- function filterFoods() {
-    const s = document.getElementById("food-search").value.trim().toLowerCase();
-    renderFoodlist(
-      s
-        ? FOOD_DB.filter(
-            (f) => f.name.includes(s) || f.en.toLowerCase().includes(s),
-          )
-        : FOOD_DB,
-    );
+function filterFoods() {
+  const s = document.getElementById("food-search").value.trim().toLowerCase();
+  //拿到 #food-search 的值，去掉前後空白，英文轉小寫
+  renderFoodList(
+    /*三元運算 s 有值 → 過濾，s 是空字串 → 回傳全部*/
+    s
+      ? FOOD_DB.filter(
+          (f) => f.name.includes(s) || f.en.toLowerCase().includes(s),
+        )
+      : FOOD_DB, // s 是空的 → 直接用全部資料
+  );
 }
 /* ════════ 記錄 CRUD ════════ */
 function addToLog(id) {

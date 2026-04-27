@@ -413,7 +413,7 @@ html.intro-active { scrollbar-color: transparent transparent; }
   transition: transform 0.75s var(--ease-inout);
 }
 
-#byobu-left  { left: 0;  transform: translateX(-100%); }
+#byobu-left  { left:  0; transform: translateX(-100%); }
 #byobu-right { right: 0; transform: translateX(100%); }
 
 #byobu.open { pointer-events: all; }
@@ -725,7 +725,7 @@ body {
 }
 .muscle-desc {
   font-family: var(--font-serif);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 200;
   line-height: 2;
   color: var(--color-grey);
@@ -984,8 +984,8 @@ background-color: var(--color-bg);
   margin-bottom: 24px;
 }
 .program-intro-desc {
-  font-family: var(--font-serif);
-  font-size: 0.88rem;
+
+  font-size: 1rem;
   line-height: 2;
   color: var(--color-grey);
   flex: 1;
@@ -1133,7 +1133,7 @@ background-color: var(--color-bg);
 }
 .nutrition-desc {
   font-family: var(--font-serif);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 2;
   color: rgba(255,255,255,0.45);
   max-width: 360px;
@@ -1192,14 +1192,14 @@ background-color: var(--color-bg);
   letter-spacing: 2px;
 }
 .nutrition-stat-unit {
-  font-size: 0.58rem;
+  font-size: 0.8rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--color-grey-mute);
   margin-left: 6px;
 }
 .nutrition-stat-desc {
-  font-size: 0.72rem;
+  font-size: 1rem;
   letter-spacing: 1px;
   color: var(--color-grey);
   text-align: right;

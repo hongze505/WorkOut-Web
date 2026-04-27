@@ -112,7 +112,7 @@ const EXERCISES = {
         { name: '前三角肌', pct: 15 },
       ],
       desc: '1.雙手放在地板上，略寬於肩。 \n 2.從頭到腳，將身體伸展成一條直線。 \n 3.保持肩膀位於手腕正上方（不要向前或向後）。 \n 4.收緊核心肌群，臀部內收，肋骨收緊。 \n 5.將重量均勻分佈在全身，而不僅僅是手腕上。',
-      img: 'img/push-up.png'
+      img: '../images/push-up.png'
     }
   ],
   bicepsLeft: [],

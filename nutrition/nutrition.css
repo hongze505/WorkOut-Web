@@ -178,6 +178,7 @@ body {
   transform: translateX(100%);
 }
 #byobu.open {
+  clip-path: inset(0 0%);  
   pointer-events: all;
 }
 #byobu.open #byobu-left {

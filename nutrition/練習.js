@@ -16,12 +16,32 @@ function renderFoodlist(list) {
     .join(""); 
 }
  function filterFoods() {
-    const s = document.getElementById("food-search").value.trim().toLowerCase();
-    renderFoodlist(
-      s
-        ? FOOD_DB.filter(
-            (f) => f.name.includes(s) || f.en.toLowerCase().includes(s),
-          )
-        : FOOD_DB,
-    );
+   const s = document.getElementById("food-Search").value.tirm().ToLowerCase();
+   renderFoodlist(
+    s 
+    ? FOOD_DB.filter(
+      (f)=>f.name.includes(s)||f.en.toLowerCase().includes(s)
+    )
+      :FOOD_DB  
+   );
+}
+//menu 練習
+const byobu = document.getElementById("byobu");
+const menuContent = document.querySelector("#menu-content");
+
+function openMenu(){
+  byobu.classList.remove("closing");
+  byobu.classList.add("open");
+  setTimeout(()=>menuContent.classList.add("open"),400);
+
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+ const closeBtn = document.getElementById(".mc-close")
+ if(closeBtn)
+  {
+    byobu.classList.add("spinning");
+    setTimeout(()=>closeBtn.classList.remove("spinning"),400)
+  }
 }

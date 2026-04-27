@@ -177,15 +177,15 @@
             <span class="tab-label">飲食記錄</span>
             <span class="tab-en">Food Log</span>
           </button>
-          <button class="tab-btn" onclick="switchTab('bmi')">
-            <span class="tab-num">02</span>
-            <span class="tab-label">身體質量</span>
-            <span class="tab-en">BMI</span>
-          </button>
           <button class="tab-btn" onclick="switchTab('tdee')">
-            <span class="tab-num">03</span>
+            <span class="tab-num">02</span>
             <span class="tab-label">每日熱量</span>
             <span class="tab-en">TDEE</span>
+          </button>
+          <button class="tab-btn" onclick="switchTab('bmi')">
+            <span class="tab-num">03</span>
+            <span class="tab-label">身體質量</span>
+            <span class="tab-en">BMI</span>
           </button>
         </div>
       </div>
@@ -473,91 +473,8 @@
           </div>
         </div>
       </div>
-
-      <!-- ══════ TAB 2 — BMI ══════ -->
-      <div class="tab-panel" id="tab-bmi">
-        <div class="calc-layout">
-          <div class="calc-left">
-            <p class="calc-eyebrow">Calculator 02</p>
-            <h2 class="calc-headline"><span>身體質量指數</span>BMI</h2>
-            <p class="calc-desc">
-              輸入身高與體重，計算你目前的身體質量指數，並對照 WHO
-              標準分級，了解自己的體重狀態。
-            </p>
-            <div class="calc-form">
-              <div class="calc-field">
-                <label class="calc-label">身高</label>
-                <div class="calc-input-wrap">
-                  <input
-                    class="calc-input"
-                    type="number"
-                    id="bmi-height"
-                    placeholder="175"
-                    min="100"
-                    max="250"
-                  />
-                  <span class="calc-unit">cm</span>
-                </div>
-              </div>
-              <div class="calc-field">
-                <label class="calc-label">體重</label>
-                <div class="calc-input-wrap">
-                  <input
-                    class="calc-input"
-                    type="number"
-                    id="bmi-weight"
-                    placeholder="70"
-                    min="30"
-                    max="300"
-                  />
-                  <span class="calc-unit">kg</span>
-                </div>
-              </div>
-              <button class="calc-btn" onclick="calcBMI()">計算 BMI</button>
-            </div>
-          </div>
-          <div class="calc-right">
-            <div class="bmi-result-wrap">
-              <div class="bmi-display-block">
-                <span class="bmi-val" id="bmi-display">—</span>
-                <span class="bmi-val-unit">BMI</span>
-              </div>
-              <div class="bmi-cards">
-                <div class="bmi-card" id="bmi-card-thin">
-                  <div class="bmi-card-bar" style="background: #5b8fa8"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">過輕</span
-                    ><span class="bmi-card-range">BMI &lt; 18.5</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-normal">
-                  <div class="bmi-card-bar" style="background: #6aab7a"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">正常</span
-                    ><span class="bmi-card-range">18.5 – 24.9</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-over">
-                  <div class="bmi-card-bar" style="background: #e6a840"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">過重</span
-                    ><span class="bmi-card-range">25.0 – 29.9</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-obese">
-                  <div class="bmi-card-bar" style="background: #c0544a"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">肥胖</span
-                    ><span class="bmi-card-range">BMI ≥ 30</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════ TAB 3 — TDEE ══════ -->
+      
+      <!-- ══════ TAB 2 — TDEE ══════ -->
       <div class="tab-panel" id="tab-tdee">
         <div class="calc-layout reverse">
           <div class="calc-right tdee-result-panel">
@@ -610,7 +527,7 @@
             </div>
           </div>
           <div class="calc-left">
-            <p class="calc-eyebrow">Calculator 03</p>
+            <p class="calc-eyebrow">Calculator 02</p>
             <h2 class="calc-headline"><span>每日總熱量消耗</span>TDEE</h2>
             <p class="calc-desc">
               根據 Mifflin-St Jeor
@@ -700,6 +617,89 @@
           </div>
         </div>
       </div>
+
+      <!-- ══════ TAB 3 — BMI ══════ -->
+      <div class="tab-panel" id="tab-bmi">
+        <div class="calc-layout">
+          <div class="calc-left">
+            <p class="calc-eyebrow">Calculator 03</p>
+            <h2 class="calc-headline"><span>身體質量指數</span>BMI</h2>
+            <p class="calc-desc">
+              輸入身高與體重，計算你目前的身體質量指數，並對照 WHO
+              標準分級，了解自己的體重狀態。
+            </p>
+            <div class="calc-form">
+              <div class="calc-field">
+                <label class="calc-label">身高</label>
+                <div class="calc-input-wrap">
+                  <input
+                    class="calc-input"
+                    type="number"
+                    id="bmi-height"
+                    placeholder="175"
+                    min="100"
+                    max="250"
+                  />
+                  <span class="calc-unit">cm</span>
+                </div>
+              </div>
+              <div class="calc-field">
+                <label class="calc-label">體重</label>
+                <div class="calc-input-wrap">
+                  <input
+                    class="calc-input"
+                    type="number"
+                    id="bmi-weight"
+                    placeholder="70"
+                    min="30"
+                    max="300"
+                  />
+                  <span class="calc-unit">kg</span>
+                </div>
+              </div>
+              <button class="calc-btn" onclick="calcBMI()">計算 BMI</button>
+            </div>
+          </div>
+          <div class="calc-right">
+            <div class="bmi-result-wrap">
+              <div class="bmi-display-block">
+                <span class="bmi-val" id="bmi-display">—</span>
+                <span class="bmi-val-unit">BMI</span>
+              </div>
+              <div class="bmi-cards">
+                <div class="bmi-card" id="bmi-card-thin">
+                  <div class="bmi-card-bar" style="background: #5b8fa8"></div>
+                  <div class="bmi-card-body">
+                    <span class="bmi-card-label">過輕</span
+                    ><span class="bmi-card-range">BMI &lt; 18.5</span>
+                  </div>
+                </div>
+                <div class="bmi-card" id="bmi-card-normal">
+                  <div class="bmi-card-bar" style="background: #6aab7a"></div>
+                  <div class="bmi-card-body">
+                    <span class="bmi-card-label">正常</span
+                    ><span class="bmi-card-range">18.5 – 24.9</span>
+                  </div>
+                </div>
+                <div class="bmi-card" id="bmi-card-over">
+                  <div class="bmi-card-bar" style="background: #e6a840"></div>
+                  <div class="bmi-card-body">
+                    <span class="bmi-card-label">過重</span
+                    ><span class="bmi-card-range">25.0 – 29.9</span>
+                  </div>
+                </div>
+                <div class="bmi-card" id="bmi-card-obese">
+                  <div class="bmi-card-bar" style="background: #c0544a"></div>
+                  <div class="bmi-card-body">
+                    <span class="bmi-card-label">肥胖</span
+                    ><span class="bmi-card-range">BMI ≥ 30</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 跑馬燈 -->
@@ -777,7 +777,5 @@
         </button>
       </div>
     </footer>
-
-
   </body>
 </html>

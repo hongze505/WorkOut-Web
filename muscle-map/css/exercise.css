@@ -5,9 +5,10 @@
 
 body {
   margin: 0;
-  background: #0f1117;
-  color: #e8eaf0;
-  font-family: sans-serif;
+  background: var(--color-bg);
+  color: var(--color-black);
+  font-family: var(--font-sans);
+  font-weight: 300;
 }
 
 .ex-layout {
@@ -23,14 +24,18 @@ body {
   align-items: center;
   gap: 16px;
   padding: 12px 28px;
-  border-bottom: 1px solid #23262f;
+  background: var(--color-black);
+  border-bottom: 0.5px solid var(--color-line);
   flex-shrink: 0;
 }
 
 .ex-back-btn {
-  background: none;
-  border: 1px solid #3a3f4b;
-  color: #e8eaf0;
+  background: transparent;
+  border: 0.5px solid #444444;
+  color: #f0ede8;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 2px;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -39,16 +44,18 @@ body {
 }
 
 .ex-back-btn:hover {
-  background: #1a1d24;
+  background: #2a2a2a;
+  color: #f0ede8;
 }
 
 .ex-header-title {
   font-size: 23px;
-  color: #8f96a3;
+  color: #888888;
 }
 
 /* ── 主內容區 ── */
 .ex-main {
+  background-color: var(--color-black);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -68,16 +75,20 @@ body {
 
 .ex-title {
   font-size: 45px;
-  font-weight: 700;
-  color: #f4cd64;
+  font-family: var(--font-brand);
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-black);
   margin: 0;
 }
 
 .ex-badge {
   font-size: 20px;
-  font-weight: 600;
-  color: #111;
-  background: #f4cd64;
+  font-family: var(--font-sans);
+  letter-spacing: 2px;
+  color: #f0ede8;
+  background: transparent;
+  border: 0.5px solid #444444;
   padding: 7px 16px;
   border-radius: 999px;
 }
@@ -96,7 +107,7 @@ body {
   min-width: 0;
   border-radius: 16px;
   overflow: hidden;
-  background: #0f1117;
+  background: var(--color-black);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,18 +134,19 @@ body {
 .ex-desc-section {
   flex: 1 1 0;
   overflow: hidden;
-  background: #1a1d24;
-  border: 1px solid #2a2d36;
+  background: #1a1a1a;
+  border: 0.5px solid #2a2a2a;
   border-radius: 12px;
   padding: 20px 24px;
 }
 
 .ex-desc-label {
   font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: #555555;
   margin: 0 0 12px;
 }
 
@@ -142,21 +154,21 @@ body {
 .ex-desc {
   font-size: 21px;
   line-height: 1.75;
-  color: #c8cad0;
+  color: #f0ede8;
   margin: 0;
   white-space: pre-line;
 }
 
 .ex-desc strong {
-  color: #f0f0f0;
+  color: #f0ede8;
 }
 
 /* ── 統計卡（難度 + 肌群） ── */
 .ex-stats-card {
   flex: 1 1 0;
   overflow: hidden;
-  background: #1a1d24;
-  border: 1px solid #2a2d36;
+  background: #1a1a1a;
+  border: 0.5px solid #2a2a2a;
   border-radius: 12px;
   padding: 20px 24px;
   display: flex;
@@ -167,10 +179,11 @@ body {
 .ex-stats-label {
   display: block;
   font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: #555555;
   margin-bottom: 10px;
 }
 
@@ -182,18 +195,18 @@ body {
 
 .ex-star {
   font-size: 41px;
-  color: #2a2d36;
+  color: #2a2a2a;
   line-height: 1;
 }
 
 .ex-star--filled {
-  color: #f4cd64;
+  color: #f0ede8;
 }
 
 /* ── 分隔線 ── */
 .ex-stats-divider {
   border: none;
-  border-top: 1px solid #2a2d36;
+  border-top: 0.5px solid #2a2a2a;
   margin: 8px 0;
 }
 
@@ -213,7 +226,7 @@ body {
 .ex-muscle-label {
   width: 88px;
   font-size: 21px;
-  color: #c8cad0;
+  color: #f0ede8;
   flex-shrink: 0;
   text-align: right;
 }
@@ -221,14 +234,14 @@ body {
 .ex-muscle-bar-bg {
   flex: 1;
   height: 14px;
-  background: #2a2d36;
+  background: #2a2a2a;
   border-radius: 999px;
   overflow: hidden;
 }
 
 .ex-muscle-bar-fill {
   height: 100%;
-  background: #f4cd64;
+  background: var(--color-black);
   border-radius: 999px;
   transition: width 0.5s ease;
 }
@@ -236,7 +249,7 @@ body {
 .ex-muscle-pct {
   width: 44px;
   font-size: 21px;
-  font-weight: 600;
-  color: #f4cd64;
+  font-weight: 300;
+  color: #f0ede8;
   flex-shrink: 0;
 }
