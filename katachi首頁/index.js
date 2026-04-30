@@ -83,4 +83,17 @@ function startTransition() {
 }
 
 /* 動畫跑完（2s）後自動觸發 */
-setTimeout(startTransition, 2000);
+if (sessionStorage.getItem('katachi_intro_played')) {
+  // 已播過 → 直接跳過
+  introScreen.style.display = 'none'
+  transTop.classList.add('done')
+  transBot.classList.add('done')
+  nav.classList.add('visible')
+  window.removeEventListener('wheel', lockScroll)
+  window.removeEventListener('touchmove', lockScroll)
+  document.documentElement.classList.remove('intro-active')
+} else {
+  // 第一次 → 播放動畫並記錄
+  sessionStorage.setItem('katachi_intro_played', 'true')
+  setTimeout(startTransition, 2000)
+}

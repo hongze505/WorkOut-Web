@@ -21,7 +21,7 @@
      COLOR  顏色
   ────────────────────────────── */
 
-  --color-bg:        #f0ede8;   /* 頁面底色，純白 */
+  --color-bg:        #F2F2F0;   /* 頁面底色，純白 */
   --color-bg-off:    #f7f6f3;   /* 輕微暖白，用於 section 交替背景 */
 
   --color-black:     #181818;   /* 主要黑色，文字 / 線條 / 條碼 */
@@ -48,6 +48,7 @@
   --font-brand:  'Big Shoulders Display', sans-serif;  /* KATACHI logo 專用，美式工業感 */
   --font-sans:   'Noto Sans JP', sans-serif;            /* 所有內文、UI 文字，日系極簡 */
   --font-serif:  'Noto Serif JP', serif;                /* 強調文字、引言，日系有襯線 */
+  --font-mincho: 'Zen Old Mincho', serif;               /* 傳統明朝體，用於肌群列表等強調文字 */
 
   /* 字重 */
   --weight-black:  800;   /* 品牌 logo KATACHI */

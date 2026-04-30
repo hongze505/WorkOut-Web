@@ -870,8 +870,8 @@ opacity: 0.6
 }
 
 .mc-text {
-  font-family: var(--font-sans);
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-family: var(--font-brand);
+  font-size: 1rem;
   font-weight: 200;
   letter-spacing: 6px;
   line-height: 1;

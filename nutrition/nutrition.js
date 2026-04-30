@@ -316,10 +316,49 @@ function filterFoods() {
   );
 }
 /* ════════ 記錄 CRUD ════════ */
-function addToLog(id) {
+/* ════════ 記錄 CRUD ════════ */
+function addToLog(id, grams = 100) {
   const food = FOOD_DB.find((f) => f.id === id);
   if (!food) return;
-  foodLog.push({ ...food, logId: Date.now() });
+  
+  // 依公克數計算營養素(資料庫是 100g 的數值)
+  const ratio = grams / 100;
+  
+  foodLog.push({
+    ...food,
+    logId: Date.now(),
+    grams: grams,                          // ⭐ 記錄使用者選的公克數
+    actualCal: food.cal * ratio,           // 實際熱量
+    actualProtein: food.protein * ratio,   // 實際蛋白質
+    actualCarbs: food.carbs * ratio,       // 實際碳水
+    actualFat: food.fat * ratio,           // 實際脂肪
+  });
+  renderLog();
+  updateChart();
+}
+
+// ⭐ 新增:更新已記錄食物的公克數
+function updateLogGrams(logId, newGrams) {
+  const item = foodLog.find((e) => e.logId === logId);
+  if (!item) return;
+  
+  // 公克數驗證
+  newGrams = parseFloat(newGrams);
+  if (isNaN(newGrams) || newGrams <= 0) {
+    showToast("請輸入有效的公克數");
+    renderLog(); // 重新渲染回原本的數值
+    return;
+  }
+  if (newGrams > 9999) newGrams = 9999;  // 上限保護
+  
+  // 重新計算營養素
+  const ratio = newGrams / 100;
+  item.grams = newGrams;
+  item.actualCal = item.cal * ratio;
+  item.actualProtein = item.protein * ratio;
+  item.actualCarbs = item.carbs * ratio;
+  item.actualFat = item.fat * ratio;
+  
   renderLog();
   updateChart();
 }
@@ -349,8 +388,28 @@ function renderLog() {
       (e) => `
     <div class="log-item">
       <div class="log-item-left">
-        <span class="log-item-name">${e.name}</span>
-        <span class="log-item-detail">${e.cal} kcal &nbsp;·&nbsp; 蛋白 ${e.protein}g &nbsp;·&nbsp; 碳水 ${e.carbs}g &nbsp;·&nbsp; 脂肪 ${e.fat}g</span>
+        <div class="log-item-header">
+          <span class="log-item-name">${e.name}</span>
+          <div class="log-item-grams">
+            <input 
+              type="number" 
+              class="log-grams-input"
+              value="${e.grams}" 
+              min="1" 
+              max="9999"
+              step="1"
+              onchange="updateLogGrams(${e.logId}, this.value)"
+              onclick="this.select()"
+            />
+            <span class="log-grams-unit">g</span>
+          </div>
+        </div>
+        <span class="log-item-detail">
+          ${Math.round(e.actualCal)} kcal &nbsp;·&nbsp; 
+          蛋白 ${e.actualProtein.toFixed(1)}g &nbsp;·&nbsp; 
+          碳水 ${e.actualCarbs.toFixed(1)}g &nbsp;·&nbsp; 
+          脂肪 ${e.actualFat.toFixed(1)}g
+        </span>
       </div>
       <button class="log-remove-btn" onclick="removeFromLog(${e.logId})">×</button>
     </div>`,
@@ -369,10 +428,10 @@ function renderLog() {
 function totals() {
   return foodLog.reduce(
     (acc, e) => ({
-      cal: acc.cal + e.cal,
-      protein: acc.protein + e.protein,
-      carbs: acc.carbs + e.carbs,
-      fat: acc.fat + e.fat,
+      cal: acc.cal + (e.actualCal ?? e.cal),         // 用實際值,沒有就 fallback
+      protein: acc.protein + (e.actualProtein ?? e.protein),
+      carbs: acc.carbs + (e.actualCarbs ?? e.carbs),
+      fat: acc.fat + (e.actualFat ?? e.fat),
     }),
     { cal: 0, protein: 0, carbs: 0, fat: 0 },
   );

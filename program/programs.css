@@ -478,8 +478,7 @@ body {
 .form-desc {
   font-family: var(--font-serif);
   font-size: 1rem;
-  font-weight: 200;
-  line-height: 2;
+  line-height: 1.5;
   color: var(--color-grey);
   margin-bottom: 32px;
 }
@@ -703,8 +702,10 @@ body {
   transition: color 0.2s;
 }
 .equip-icon svg {
-  width: 100%;
+  width: auto;
   height: 100%;
+  display: block;
+  margin: 0 auto;
 }
 .equip-btn.active .equip-icon {
   color: rgba(255, 255, 255, 0.8);

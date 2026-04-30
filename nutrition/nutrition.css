@@ -797,6 +797,57 @@ body {
   letter-spacing: 1px;
   color: var(--color-grey);
 }
+
+/* ══════ 公克數輸入(新增) ══════ */
+.log-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.log-item-grams {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.log-grams-input {
+  width: 56px;
+  background: var(--color-bg-off, #f5f3ee);
+  border: 0.5px solid var(--color-line);
+  border-radius: 4px;
+  outline: none;
+  font-family: var(--font-brand);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-black);
+  padding: 4px 8px;
+  text-align: right;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.log-grams-input:hover {
+  border-color: var(--color-grey-mid);
+}
+.log-grams-input:focus {
+  border-color: var(--color-black);
+  background: #fff;
+}
+.log-grams-input::-webkit-inner-spin-button,
+.log-grams-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.log-grams-input[type="number"] {
+  -moz-appearance: textfield;
+}
+.log-grams-unit {
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  color: var(--color-grey);
+}
 .log-remove-btn {
   background: none;
   border: none;
@@ -1446,15 +1497,50 @@ body {
   color: rgba(255, 255, 255, 0.3);
   margin-left: 4px;
 }
+/* ══════ TDEE 兩顆按鈕並排 ══════ */
+.tdee-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* 儲存按鈕(描邊版) */
+.tdee-save-btn {
+  padding: 14px 12px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.tdee-save-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 套用按鈕(原本的,微調讓兩顆一致) */
 .tdee-apply-btn {
-  width: 100%;
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.08);
+  padding: 14px 12px;
+  background: transparent;
   color: rgba(255, 255, 255, 0.7);
   border: 0.5px solid rgba(255, 255, 255, 0.15);
   font-family: var(--font-sans);
-  font-size: 0.85rem;
-  letter-spacing: 4px;
+  font-size: 0.78rem;
+  letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 4px;
