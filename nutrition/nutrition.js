@@ -218,6 +218,64 @@ function isLoggedIn() {
 
 /* ════════ 儲存 / 歷史 ════════ */
 const HISTORY_KEY = "katachi_nutrition_history";
+/* ════════ 多日紀錄管理 ════════ */
+const _LOG_KEY = "katachi_daily_logs";
+
+function _fmtDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function _fmtTime(ts) {
+  if (!ts) return "";
+  const d = new Date(ts);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function _saveTodayLog() {
+  const key = document.getElementById("history-date-picker")?.value || _fmtDate(new Date());
+  const all = JSON.parse(localStorage.getItem(_LOG_KEY) || "{}");
+  all[key] = foodLog;
+  localStorage.setItem(_LOG_KEY, JSON.stringify(all));
+  renderHistory(key);
+}
+function _loadDayLog(dateKey) {
+  const all = JSON.parse(localStorage.getItem(_LOG_KEY) || "{}");
+  foodLog = all[dateKey] || [];
+  const logLabel = document.querySelector("#tab-food .panel-label");
+  if (logLabel) {
+    const today = _fmtDate(new Date());
+    if (dateKey === today) {
+      logLabel.textContent = "今日記錄";
+    } else {
+      const d = new Date(dateKey);
+      logLabel.textContent = `${d.getMonth() + 1}/${d.getDate()} 記錄`;
+    }
+  }
+  renderLog();
+  updateChart();
+}
+
+function historyChangeDate(delta) {
+  const picker = document.getElementById("history-date-picker");
+  const d = new Date(picker.value || _fmtDate(new Date()));
+  d.setDate(d.getDate() + delta);
+  const newKey = _fmtDate(d);
+  picker.value = newKey;
+  _loadDayLog(newKey);
+  renderHistory(newKey);
+}
+
+function historyPickDate(dateKey) {
+  _loadDayLog(dateKey);
+  renderHistory(dateKey);
+}
+
+function jumpToDate(dateKey) {
+  const picker = document.getElementById("history-date-picker");
+  if (picker) picker.value = dateKey;
+  _loadDayLog(dateKey);
+  renderHistory(dateKey);
+}
 async function saveLog() {
   if (foodLog.length === 0) {
     showToast("尚未記錄任何食物");
@@ -240,6 +298,7 @@ async function saveLog() {
     filtered.unshift(entry);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(filtered.slice(0, 7)));
   }
+  _saveTodayLog();
   showToast("今日記錄已儲存 ✓");
   renderHistory();
 }
@@ -250,22 +309,56 @@ function getHistory() {
     return [];
   }
 }
-function renderHistory() {
+function renderHistory(activeKey) {
   const list = document.getElementById("history-list");
-  const history = getHistory();
-  if (history.length === 0) {
+  const all = JSON.parse(localStorage.getItem(_LOG_KEY) || "{}");
+  const today = _fmtDate(new Date());
+  const yesterday = _fmtDate(new Date(Date.now() - 86400000));
+
+  const dates = Object.keys(all)
+    .filter((k) => all[k] && all[k].length > 0)
+    .sort((a, b) => b.localeCompare(a))
+    .slice(0, 7);
+
+  if (dates.length === 0) {
     list.innerHTML = '<p class="history-empty">尚無儲存記錄</p>';
     return;
   }
-  list.innerHTML = history
-    .map(
-      (h) => `
-    <div class="history-item">
-      <span class="history-date">${h.date}</span>
-      <span class="history-cal">${h.cal} kcal</span>
-      <span class="history-macros">蛋白 ${h.protein}g · 碳水 ${h.carbs}g · 脂肪 ${h.fat}g</span>
-    </div>`,
-    )
+
+  const currentKey =
+    activeKey ||
+    document.getElementById("history-date-picker")?.value ||
+    today;
+
+  list.innerHTML = dates
+    .map((k) => {
+      const items = all[k];
+      const t = items.reduce(
+        (acc, e) => ({
+          cal: acc.cal + (e.actualCal ?? e.cal),
+          protein: acc.protein + (e.actualProtein ?? e.protein),
+          carbs: acc.carbs + (e.actualCarbs ?? e.carbs),
+          fat: acc.fat + (e.actualFat ?? e.fat),
+        }),
+        { cal: 0, protein: 0, carbs: 0, fat: 0 }
+      );
+
+      const isActive = k === currentKey;
+      const label =
+        k === today
+          ? `今天 ${k.slice(5).replace("-", "/")}`
+          : k === yesterday
+          ? `昨天 ${k.slice(5).replace("-", "/")}`
+          : k.replace(/-/g, "/");
+
+      return `
+        <div class="history-item ${isActive ? "active" : ""}"
+             onclick="jumpToDate('${k}')">
+          <span class="history-date">${label}</span>
+          <span class="history-cal">${Math.round(t.cal)} kcal</span>
+          <span class="history-macros">蛋白 ${Math.round(t.protein)}g · 碳水 ${Math.round(t.carbs)}g · 脂肪 ${Math.round(t.fat)}g</span>
+        </div>`;
+    })
     .join("");
 }
 
@@ -315,50 +408,54 @@ function filterFoods() {
       : FOOD_DB, // s 是空的 → 直接用全部資料
   );
 }
-/* ════════ 記錄 CRUD ════════ */
+
 /* ════════ 記錄 CRUD ════════ */
 function addToLog(id, grams = 100) {
   const food = FOOD_DB.find((f) => f.id === id);
   if (!food) return;
-  
-  // 依公克數計算營養素(資料庫是 100g 的數值)
   const ratio = grams / 100;
-  
-  foodLog.push({
+  const newItem = {
     ...food,
     logId: Date.now(),
-    grams: grams,                          // ⭐ 記錄使用者選的公克數
-    actualCal: food.cal * ratio,           // 實際熱量
-    actualProtein: food.protein * ratio,   // 實際蛋白質
-    actualCarbs: food.carbs * ratio,       // 實際碳水
-    actualFat: food.fat * ratio,           // 實際脂肪
-  });
+    grams: grams,
+    actualCal: food.cal * ratio,
+    actualProtein: food.protein * ratio,
+    actualCarbs: food.carbs * ratio,
+    actualFat: food.fat * ratio,
+    addedAt: Date.now(),
+    isNew: true,   // ⭐ 標記為最新
+  };
+  foodLog.unshift(newItem);   // ⭐ unshift = 插在最前面（原本是 push 加在最後）
   renderLog();
   updateChart();
+
+  // ⭐ 2 秒後移除 isNew 標記，背景色消失
+  setTimeout(() => {
+    const item = foodLog.find((e) => e.logId === newItem.logId);
+    if (item) {
+      item.isNew = false;
+      renderLog();
+    }
+  }, 2000);
 }
 
 // ⭐ 新增:更新已記錄食物的公克數
 function updateLogGrams(logId, newGrams) {
   const item = foodLog.find((e) => e.logId === logId);
   if (!item) return;
-  
-  // 公克數驗證
   newGrams = parseFloat(newGrams);
   if (isNaN(newGrams) || newGrams <= 0) {
     showToast("請輸入有效的公克數");
-    renderLog(); // 重新渲染回原本的數值
+    renderLog();
     return;
   }
-  if (newGrams > 9999) newGrams = 9999;  // 上限保護
-  
-  // 重新計算營養素
+  if (newGrams > 9999) newGrams = 9999;
   const ratio = newGrams / 100;
   item.grams = newGrams;
   item.actualCal = item.cal * ratio;
   item.actualProtein = item.protein * ratio;
   item.actualCarbs = item.carbs * ratio;
   item.actualFat = item.fat * ratio;
-  
   renderLog();
   updateChart();
 }
@@ -386,10 +483,10 @@ function renderLog() {
   el.innerHTML = foodLog
     .map(
       (e) => `
-    <div class="log-item">
+   <div class="log-item ${e.isNew ? 'log-item-new' : ''}">
       <div class="log-item-left">
         <div class="log-item-header">
-          <span class="log-item-name">${e.name}</span>
+          <span class="log-item-name">${e.name}<span class="log-item-time">${_fmtTime(e.addedAt)}</span></span>
           <div class="log-item-grams">
             <input 
               type="number" 
@@ -562,3 +659,6 @@ function applyTDEETarget() {
 /* ════════ 初始化 ════════ */
 renderFoodList(FOOD_DB);
 renderHistory();
+
+const _picker = document.getElementById("history-date-picker");
+if (_picker) _picker.value = _fmtDate(new Date());

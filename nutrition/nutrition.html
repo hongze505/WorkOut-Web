@@ -1,812 +1,563 @@
 <!doctype html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>飲食計算 — KATACHI</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;1,200;1,300&family=Noto+Sans+JP:wght@100;200;300&family=Noto+Serif+JP:wght@200;300;400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../tokens.css" />
-    <link rel="stylesheet" href="nutrition.css" />
-    <script src="nutrition.js" defer></script>
-  </head>
-  <body>
-    <!-- ══════ BYOBU ══════ -->
-    <div id="byobu">
-      <div id="byobu-left"></div>
-      <div id="byobu-right"></div>
-    </div>
 
-    <!-- ══════ MENU ══════ -->
-    <div id="menu-content">
-      <div class="mc-left">
-        <ul class="mc-links">
-          <li class="mc-item">
-            <a class="mc-link" href="../muscle-map/index.html"
-              ><span class="mc-num">01</span
-              ><span class="mc-text-wrap"
-                ><span class="mc-text">肌肉百科</span></span
-              ><span class="mc-en">Muscle Wiki</span></a
-            >
-          </li>
-          <li class="mc-item">
-            <a class="mc-link" href="#"
-              ><span class="mc-num">02</span
-              ><span class="mc-text-wrap"
-                ><span class="mc-text">動作教學</span></span
-              ><span class="mc-en">Exercises</span></a
-            >
-          </li>
-          <li class="mc-item">
-            <a class="mc-link" href="../program/programs.html"
-              ><span class="mc-num">03</span
-              ><span class="mc-text-wrap"
-                ><span class="mc-text">訓練計畫</span></span
-              ><span class="mc-en">Programs</span></a
-            >
-          </li>
-          <li class="mc-item">
-            <a class="mc-link" href="nutrition.html" onclick="closeMenu()"
-              ><span class="mc-num">04</span
-              ><span class="mc-text-wrap"
-                ><span class="mc-text">飲食計算</span></span
-              ><span class="mc-en">Nutrition</span></a
-            >
-          </li>
-          <li class="mc-item">
-            <a class="mc-link" href="#"
-              ><span class="mc-num">05</span
-              ><span class="mc-text-wrap"
-                ><span class="mc-text">商店 / 會員</span></span
-              ><span class="mc-en">Shop</span></a
-            >
-          </li>
-        </ul>
-      </div>
-      <div class="mc-right">
-        <div class="mc-quote">精準的訓練，<br />始於對身體<br />的理解</div>
-      </div>
-      <button class="mc-close" onclick="closeMenu()">
-        <span class="mc-close-x"></span>Close
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>飲食計算 — KATACHI</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Cormorant+Garamond:ital,wght@0,300;1,200;1,300&family=Noto+Sans+JP:wght@100;200;300&family=Noto+Serif+JP:wght@200;300;400&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../tokens.css" />
+  <link rel="stylesheet" href="nutrition.css" />
+  <script src="nutrition.js" defer></script>
+</head>
+
+<body>
+  <!-- ══════ BYOBU ══════ -->
+  <div id="byobu">
+    <div id="byobu-left"></div>
+    <div id="byobu-right"></div>
+  </div>
+
+  <!-- ══════ MENU ══════ -->
+  <div id="menu-content">
+    <div class="mc-left">
+      <ul class="mc-links">
+        <li class="mc-item">
+          <a class="mc-link" href="../muscle-map/index.html"><span class="mc-num">01</span><span
+              class="mc-text-wrap"><span class="mc-text">肌肉百科</span></span><span class="mc-en">Muscle Wiki</span></a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="#"><span class="mc-num">02</span><span class="mc-text-wrap"><span
+                class="mc-text">動作教學</span></span><span class="mc-en">Exercises</span></a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="../program/programs.html"><span class="mc-num">03</span><span
+              class="mc-text-wrap"><span class="mc-text">訓練計畫</span></span><span class="mc-en">Programs</span></a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="nutrition.html" onclick="closeMenu()"><span class="mc-num">04</span><span
+              class="mc-text-wrap"><span class="mc-text">飲食計算</span></span><span class="mc-en">Nutrition</span></a>
+        </li>
+        <li class="mc-item">
+          <a class="mc-link" href="#"><span class="mc-num">05</span><span class="mc-text-wrap"><span class="mc-text">商店
+                / 會員</span></span><span class="mc-en">Shop</span></a>
+        </li>
+      </ul>
+    </div>
+    <div class="mc-right">
+      <div class="mc-quote">精準的訓練，<br />始於對身體<br />的理解</div>
+    </div>
+    <button class="mc-close" onclick="closeMenu()">
+      <span class="mc-close-x"></span>Close
+    </button>
+  </div>
+
+  <!-- ══════ NAV ══════ -->
+  <nav id="nav" class="visible">
+    <a class="nav-logo" href="../katachi首頁/katachi-index .html">KATACH<span class="dumbbell-i">
+        <svg viewBox="0 0 28 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="0" width="24" height="7" rx="1.5" fill="currentColor" />
+          <rect x="0" y="9" width="28" height="9" rx="2" fill="currentColor" />
+          <rect x="11" y="20" width="6" height="40" fill="currentColor" />
+          <rect x="0" y="62" width="28" height="9" rx="2" fill="currentColor" />
+          <rect x="2" y="73" width="24" height="7" rx="1.5" fill="currentColor" />
+        </svg> </span></a>
+    <ul class="nav-links">
+      <li><a href="../muscle-map/index.html">肌肉百科</a></li>
+      <li><a href="#">動作教學</a></li>
+      <li><a href="../program/programs.html">訓練計畫</a></li>
+      <li><a href="nutrition.html" class="nav-active">飲食</a></li>
+      <li><a href="#">商店</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-user" href="#" title="會員登入">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="6" r="3.25" stroke="currentColor" stroke-width="2" />
+          <path d="M1.5 17c0-4.142 3.358-7.5 7.5-7.5s7.5 3.358 7.5 7.5" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" />
+        </svg>
+      </a>
+      <button id="menu-btn" onclick="openMenu()">
+        <span class="menu-lines"><span class="menu-line"></span><span class="menu-line"></span></span>
+        <span class="menu-btn-text">Menu</span>
       </button>
     </div>
+  </nav>
 
-    <!-- ══════ NAV ══════ -->
-    <nav id="nav" class="visible">
-      <a class="nav-logo" href="../katachi首頁/katachi-index .html"
-        >KATACH<span class="dumbbell-i">
-          <svg
-            viewBox="0 0 28 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="2"
-              y="0"
-              width="24"
-              height="7"
-              rx="1.5"
-              fill="currentColor"
-            />
-            <rect
-              x="0"
-              y="9"
-              width="28"
-              height="9"
-              rx="2"
-              fill="currentColor"
-            />
-            <rect x="11" y="20" width="6" height="40" fill="currentColor" />
-            <rect
-              x="0"
-              y="62"
-              width="28"
-              height="9"
-              rx="2"
-              fill="currentColor"
-            />
-            <rect
-              x="2"
-              y="73"
-              width="24"
-              height="7"
-              rx="1.5"
-              fill="currentColor"
-            />
-          </svg> </span
-      ></a>
-      <ul class="nav-links">
-        <li><a href="../muscle-map/index.html">肌肉百科</a></li>
-        <li><a href="#">動作教學</a></li>
-        <li><a href="../program/programs.html">訓練計畫</a></li>
-        <li><a href="nutrition.html" class="nav-active">飲食</a></li>
-        <li><a href="#">商店</a></li>
-      </ul>
-      <div class="nav-right">
-        <a class="nav-user" href="#" title="會員登入">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle
-              cx="9"
-              cy="6"
-              r="3.25"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <path
-              d="M1.5 17c0-4.142 3.358-7.5 7.5-7.5s7.5 3.358 7.5 7.5"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-        </a>
-        <button id="menu-btn" onclick="openMenu()">
-          <span class="menu-lines"
-            ><span class="menu-line"></span><span class="menu-line"></span
-          ></span>
-          <span class="menu-btn-text">Menu</span>
-        </button>
+  <!-- ══════ HERO ══════ -->
+  <header id="nutrition-hero">
+    <div class="nh-inner">
+      <p class="nh-eyebrow">Nutrition Science</p>
+      <h1 class="nh-title">NUTRITION<br />TRACKER</h1>
+      <p class="nh-sub">精準飲食 · 科學計算</p>
+    </div>
+    <div class="nh-scroll">
+      <span class="scroll-text">Scroll</span>
+      <div class="scroll-line">
+        <div class="scroll-dot"></div>
       </div>
-    </nav>
+    </div>
+  </header>
 
-    <!-- ══════ HERO ══════ -->
-    <header id="nutrition-hero">
-      <div class="nh-inner">
-        <p class="nh-eyebrow">Nutrition Science</p>
-        <h1 class="nh-title">NUTRITION<br />TRACKER</h1>
-        <p class="nh-sub">精準飲食 · 科學計算</p>
-      </div>
-      <div class="nh-scroll">
-        <span class="scroll-text">Scroll</span>
-        <div class="scroll-line"><div class="scroll-dot"></div></div>
-      </div>
-    </header>
-
-    <!-- ══════════════════════════════════════════
+  <!-- ══════════════════════════════════════════
        MAIN CONTENT
   ══════════════════════════════════════════ -->
-    <div id="main-content">
-      <!-- Tab 列 -->
-      <div id="tab-bar">
-        <div class="tab-bar-inner">
-          <button class="tab-btn active" onclick="switchTab('food')">
-            <span class="tab-num">01</span>
-            <span class="tab-label">飲食記錄</span>
-            <span class="tab-en">Food Log</span>
-          </button>
-          <button class="tab-btn" onclick="switchTab('tdee')">
-            <span class="tab-num">02</span>
-            <span class="tab-label">每日熱量</span>
-            <span class="tab-en">TDEE</span>
-          </button>
-          <button class="tab-btn" onclick="switchTab('bmi')">
-            <span class="tab-num">03</span>
-            <span class="tab-label">身體質量</span>
-            <span class="tab-en">BMI</span>
-          </button>
+  <div id="main-content">
+    <!-- Tab 列 -->
+    <div id="tab-bar">
+      <div class="tab-bar-inner">
+        <button class="tab-btn active" onclick="switchTab('food')">
+          <span class="tab-num">01</span>
+          <span class="tab-label">飲食記錄</span>
+          <span class="tab-en">Food Log</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('tdee')">
+          <span class="tab-num">02</span>
+          <span class="tab-label">每日熱量</span>
+          <span class="tab-en">TDEE</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('bmi')">
+          <span class="tab-num">03</span>
+          <span class="tab-label">身體質量</span>
+          <span class="tab-en">BMI</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════ TAB 1 — 飲食記錄 ══════ -->
+    <div class="tab-panel active" id="tab-food">
+      <!-- 左下角裝飾（絕對定位，不影響 grid） -->
+      <div class="food-deco" aria-hidden="true">
+        <div class="food-deco-circle"></div>
+        <div class="food-deco-coords">
+          <span class="food-deco-line"></span>
+          <span class="food-deco-numbers">25.0° N / 121.5° E</span>
         </div>
+        <span class="food-deco-scanning">SCANNING... [ SYSTEM_READY ]</span>
+      </div>
+      <div class="food-deco" aria-hidden="true">...</div>
+
+      <!-- 新增標題區 -->
+      <div class="food-title-block">
+        <p class="calc-eyebrow">Food Log 01</p>
+        <h2 class="calc-headline">
+          <span>今日飲食記錄</span>
+          NUTRITION
+        </h2>
       </div>
 
-      <!-- ══════ TAB 1 — 飲食記錄 ══════ -->
-      <div class="tab-panel active" id="tab-food">
-        <!-- 左下角裝飾（絕對定位，不影響 grid） -->
-        <div class="food-deco" aria-hidden="true">
-          <div class="food-deco-circle"></div>
-          <div class="food-deco-coords">
-            <span class="food-deco-line"></span>
-            <span class="food-deco-numbers">25.0° N / 121.5° E</span>
+      <div class="food-layout">
+        <!-- 左：搜尋 + 資料庫 -->
+        <div class="food-search-panel">
+          <p class="panel-label">食物資料庫</p>
+          <div class="food-search-wrap">
+            <input class="food-search-input" type="text" id="food-search" placeholder="搜尋食物名稱…"
+              oninput="filterFoods()" />
+            <span class="food-search-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5" />
+                <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </span>
           </div>
-          <span class="food-deco-scanning">SCANNING... [ SYSTEM_READY ]</span>
-        </div>
-        <div class="food-deco" aria-hidden="true">...</div>
-
-        <!-- 新增標題區 -->
-        <div class="food-title-block">
-          <p class="calc-eyebrow">Food Log 01</p>
-          <h2 class="calc-headline">
-            <span>今日飲食記錄</span>
-            NUTRITION
-          </h2>
+          <div class="food-list" id="food-list"></div>
         </div>
 
-        <div class="food-layout">
-          <!-- 左：搜尋 + 資料庫 -->
-          <div class="food-search-panel">
-            <p class="panel-label">食物資料庫</p>
-            <div class="food-search-wrap">
-              <input
-                class="food-search-input"
-                type="text"
-                id="food-search"
-                placeholder="搜尋食物名稱…"
-                oninput="filterFoods()"
-              />
-              <span class="food-search-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle
-                    cx="6.5"
-                    cy="6.5"
-                    r="4.5"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                  />
-                  <path
-                    d="M10.5 10.5L14 14"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                  />
+        <!-- 中：今日記錄 -->
+        <div class="food-log-panel">
+          <div class="panel-label-row">
+            <p class="panel-label">今日記錄</p>
+            <div class="log-actions">
+              <button class="log-action-btn save-btn" onclick="saveLog()" title="儲存今日記錄">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 2h8l2 2v8H2V2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                  <rect x="4" y="8" width="6" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" />
+                  <rect x="4" y="2" width="4" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2" />
                 </svg>
-              </span>
-            </div>
-            <div class="food-list" id="food-list"></div>
-          </div>
-
-          <!-- 中：今日記錄 -->
-          <div class="food-log-panel">
-            <div class="panel-label-row">
-              <p class="panel-label">今日記錄</p>
-              <div class="log-actions">
-                <button
-                  class="log-action-btn save-btn"
-                  onclick="saveLog()"
-                  title="儲存今日記錄"
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M2 2h8l2 2v8H2V2z"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                      stroke-linejoin="round"
-                    />
-                    <rect
-                      x="4"
-                      y="8"
-                      width="6"
-                      height="4"
-                      rx="0.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                    />
-                    <rect
-                      x="4"
-                      y="2"
-                      width="4"
-                      height="3"
-                      rx="0.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                    />
-                  </svg>
-                  儲存
-                </button>
-                <button
-                  class="log-action-btn clear-btn"
-                  onclick="clearLog()"
-                  title="清除所有記錄"
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M2 4h10M5 4V2.5h4V4M5.5 6.5v4M8.5 6.5v4M3 4l.8 7.5h6.4L11 4"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  清除
-                </button>
-              </div>
-            </div>
-
-            <div class="food-log-list" id="food-log">
-              <div class="food-log-empty"><span>尚未記錄任何食物</span></div>
-            </div>
-
-            <div class="food-log-total hidden" id="log-total">
-              <div class="log-total-row">
-                <span class="log-total-label">總熱量</span>
-                <div>
-                  <span class="log-total-val" id="total-cal">0</span>
-                  <span class="log-total-unit">kcal</span>
-                </div>
-              </div>
-              <div class="log-total-macros">
-                <span id="total-protein">蛋白質 0g</span>
-                <span id="total-carbs">碳水 0g</span>
-                <span id="total-fat">脂肪 0g</span>
-              </div>
+                儲存
+              </button>
+              <button class="log-action-btn clear-btn" onclick="clearLog()" title="清除所有記錄">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 4h10M5 4V2.5h4V4M5.5 6.5v4M8.5 6.5v4M3 4l.8 7.5h6.4L11 4" stroke="currentColor"
+                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                清除
+              </button>
             </div>
           </div>
 
-          <!-- 右：圓餅圖 + 目標切換 + 進度條 + 歷史 -->
-          <div class="food-chart-panel">
-            <p class="panel-label">今日分佈</p>
+          <div class="food-log-list" id="food-log">
+            <div class="food-log-empty"><span>尚未記錄任何食物</span></div>
+          </div>
 
-            <div class="donut-wrap">
-              <svg viewBox="0 0 120 120" class="donut-svg">
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="48"
-                  fill="none"
-                  stroke="#e6e3de"
-                  stroke-width="16"
-                />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="48"
-                  fill="none"
-                  stroke="#5b7fa6"
-                  stroke-width="16"
-                  stroke-dasharray="0 301.59"
-                  stroke-linecap="butt"
-                  transform="rotate(-90 60 60)"
-                  id="donut-protein"
-                  style="
+          <div class="food-log-total hidden" id="log-total">
+            <div class="log-total-row">
+              <span class="log-total-label">總熱量</span>
+              <div>
+                <span class="log-total-val" id="total-cal">0</span>
+                <span class="log-total-unit">kcal</span>
+              </div>
+            </div>
+            <div class="log-total-macros">
+              <span id="total-protein">蛋白質 0g</span>
+              <span id="total-carbs">碳水 0g</span>
+              <span id="total-fat">脂肪 0g</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：圓餅圖 + 目標切換 + 進度條 + 歷史 -->
+        <div class="food-chart-panel">
+          <p class="panel-label">今日分佈</p>
+
+          <div class="donut-wrap">
+            <svg viewBox="0 0 120 120" class="donut-svg">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#e6e3de" stroke-width="16" />
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#5b7fa6" stroke-width="16" stroke-dasharray="0 301.59"
+                stroke-linecap="butt" transform="rotate(-90 60 60)" id="donut-protein" style="
                     transition: stroke-dasharray 0.8s
                       cubic-bezier(0.16, 1, 0.3, 1);
-                  "
-                />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="48"
-                  fill="none"
-                  stroke="#c4a86b"
-                  stroke-width="16"
-                  stroke-dasharray="0 301.59"
-                  stroke-linecap="butt"
-                  transform="rotate(-90 60 60)"
-                  id="donut-carbs"
-                  style="
+                  " />
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#c4a86b" stroke-width="16" stroke-dasharray="0 301.59"
+                stroke-linecap="butt" transform="rotate(-90 60 60)" id="donut-carbs" style="
                     transition:
                       stroke-dasharray 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
                       transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-                  "
-                />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="48"
-                  fill="none"
-                  stroke="#a86b5b"
-                  stroke-width="16"
-                  stroke-dasharray="0 301.59"
-                  stroke-linecap="butt"
-                  transform="rotate(-90 60 60)"
-                  id="donut-fat"
-                  style="
+                  " />
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#a86b5b" stroke-width="16" stroke-dasharray="0 301.59"
+                stroke-linecap="butt" transform="rotate(-90 60 60)" id="donut-fat" style="
                     transition:
                       stroke-dasharray 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
                       transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-                  "
-                />
-              </svg>
-              <div class="donut-center">
-                <span class="donut-cal" id="donut-cal">0</span>
-                <span class="donut-unit-sm">kcal</span>
+                  " />
+            </svg>
+            <div class="donut-center">
+              <span class="donut-cal" id="donut-cal">0</span>
+              <span class="donut-unit-sm">kcal</span>
+            </div>
+          </div>
+
+          <div class="donut-legend">
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #5b7fa6"></span><span class="legend-label">蛋白質</span><span
+                class="legend-val" id="legend-protein">0g</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #c4a86b"></span><span class="legend-label">碳水化合物</span><span
+                class="legend-val" id="legend-carbs">0g</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #a86b5b"></span><span class="legend-label">脂肪</span><span
+                class="legend-val" id="legend-fat">0g</span>
+            </div>
+          </div>
+
+          <!-- ★ TDEE 目標切換器 -->
+          <div class="goal-switcher" id="goal-switcher" style="display: none">
+            <p class="goal-switcher-label">選擇目標</p>
+            <div class="goal-btns">
+              <button class="goal-btn" data-mode="cut" onclick="setGoalMode('cut')">
+                <span class="goal-btn-name">減脂</span>
+                <span class="goal-btn-val" id="goal-cut-val">—</span>
+                <span class="goal-btn-unit">kcal</span>
+              </button>
+              <button class="goal-btn active" data-mode="maintain" onclick="setGoalMode('maintain')">
+                <span class="goal-btn-name">維持</span>
+                <span class="goal-btn-val" id="goal-maintain-val">—</span>
+                <span class="goal-btn-unit">kcal</span>
+              </button>
+              <button class="goal-btn" data-mode="bulk" onclick="setGoalMode('bulk')">
+                <span class="goal-btn-name">增肌</span>
+                <span class="goal-btn-val" id="goal-bulk-val">—</span>
+                <span class="goal-btn-unit">kcal</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="progress-section">
+            <p class="progress-title">今日熱量目標</p>
+            <div class="progress-track">
+              <div class="progress-bar" id="cal-progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="progress-labels">
+              <span id="progress-current">0 kcal</span>
+              <span id="progress-target">—</span>
+            </div>
+            <p class="progress-hint" id="progress-hint">
+              * 請先至 TDEE 計算目標熱量
+            </p>
+          </div>
+
+          <!-- 近日記錄 -->
+          <div class="history-section">
+            <div class="history-header">
+              <p class="panel-label">近日記錄</p>
+              <div class="history-date-picker">
+                <button onclick="historyChangeDate(-1)">‹</button>
+                <input type="date" id="history-date-picker" onchange="historyPickDate(this.value)" />
+                <button onclick="historyChangeDate(1)">›</button>
               </div>
             </div>
-
-            <div class="donut-legend">
-              <div class="legend-row">
-                <span class="legend-dot" style="background: #5b7fa6"></span
-                ><span class="legend-label">蛋白質</span
-                ><span class="legend-val" id="legend-protein">0g</span>
-              </div>
-              <div class="legend-row">
-                <span class="legend-dot" style="background: #c4a86b"></span
-                ><span class="legend-label">碳水化合物</span
-                ><span class="legend-val" id="legend-carbs">0g</span>
-              </div>
-              <div class="legend-row">
-                <span class="legend-dot" style="background: #a86b5b"></span
-                ><span class="legend-label">脂肪</span
-                ><span class="legend-val" id="legend-fat">0g</span>
-              </div>
-            </div>
-
-            <!-- ★ TDEE 目標切換器 -->
-            <div class="goal-switcher" id="goal-switcher" style="display: none">
-              <p class="goal-switcher-label">選擇目標</p>
-              <div class="goal-btns">
-                <button
-                  class="goal-btn"
-                  data-mode="cut"
-                  onclick="setGoalMode('cut')"
-                >
-                  <span class="goal-btn-name">減脂</span>
-                  <span class="goal-btn-val" id="goal-cut-val">—</span>
-                  <span class="goal-btn-unit">kcal</span>
-                </button>
-                <button
-                  class="goal-btn active"
-                  data-mode="maintain"
-                  onclick="setGoalMode('maintain')"
-                >
-                  <span class="goal-btn-name">維持</span>
-                  <span class="goal-btn-val" id="goal-maintain-val">—</span>
-                  <span class="goal-btn-unit">kcal</span>
-                </button>
-                <button
-                  class="goal-btn"
-                  data-mode="bulk"
-                  onclick="setGoalMode('bulk')"
-                >
-                  <span class="goal-btn-name">增肌</span>
-                  <span class="goal-btn-val" id="goal-bulk-val">—</span>
-                  <span class="goal-btn-unit">kcal</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="progress-section">
-              <p class="progress-title">今日熱量目標</p>
-              <div class="progress-track">
-                <div
-                  class="progress-bar"
-                  id="cal-progress-bar"
-                  style="width: 0%"
-                ></div>
-              </div>
-              <div class="progress-labels">
-                <span id="progress-current">0 kcal</span>
-                <span id="progress-target">—</span>
-              </div>
-              <p class="progress-hint" id="progress-hint">
-                * 請先至 TDEE 計算目標熱量
-              </p>
-            </div>
-
-            <!-- 近日記錄 -->
-            <div class="history-section">
-              <p class="panel-label" style="margin-top: 28px">近日記錄</p>
-              <div class="history-list" id="history-list">
-                <p class="history-empty">尚無儲存記錄</p>
-              </div>
+            <div class="history-list" id="history-list">
+              <p class="history-empty">尚無儲存記錄</p>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ══════ TAB 2 — TDEE ══════ -->
-      <div class="tab-panel" id="tab-tdee">
-        <div class="calc-layout reverse">
-          <div class="calc-right tdee-result-panel">
-            <div id="tdee-empty" class="tdee-empty">
-              <p class="tdee-empty-text">輸入資料後<br />顯示每日熱量需求</p>
+    <!-- ══════ TAB 2 — TDEE ══════ -->
+    <div class="tab-panel" id="tab-tdee">
+      <div class="calc-layout reverse">
+        <div class="calc-right tdee-result-panel">
+          <div id="tdee-empty" class="tdee-empty">
+            <p class="tdee-empty-text">輸入資料後<br />顯示每日熱量需求</p>
+          </div>
+          <div id="tdee-result" class="tdee-result hidden">
+            <div class="tdee-bmr-block">
+              <span class="tdee-label-sm">基礎代謝率 BMR</span>
+              <div class="tdee-num-row">
+                <span class="tdee-num-lg" id="bmr-display">—</span>
+                <span class="tdee-unit">kcal / day</span>
+              </div>
             </div>
-            <div id="tdee-result" class="tdee-result hidden">
-              <div class="tdee-bmr-block">
-                <span class="tdee-label-sm">基礎代謝率 BMR</span>
-                <div class="tdee-num-row">
-                  <span class="tdee-num-lg" id="bmr-display">—</span>
-                  <span class="tdee-unit">kcal / day</span>
+            <div class="tdee-divider"></div>
+            <div class="tdee-main-block">
+              <span class="tdee-label-sm">每日總熱量 TDEE</span>
+              <div class="tdee-num-row">
+                <span class="tdee-num-xl" id="tdee-display">—</span>
+                <span class="tdee-unit">kcal / day</span>
+              </div>
+            </div>
+            <div class="tdee-divider"></div>
+            <div class="tdee-goals">
+              <div class="tdee-goal-row">
+                <span class="tdee-goal-label">減脂目標</span>
+                <div>
+                  <span class="tdee-goal-val" id="tdee-cut">—</span><span class="tdee-goal-unit">kcal</span>
                 </div>
               </div>
-              <div class="tdee-divider"></div>
-              <div class="tdee-main-block">
-                <span class="tdee-label-sm">每日總熱量 TDEE</span>
-                <div class="tdee-num-row">
-                  <span class="tdee-num-xl" id="tdee-display">—</span>
-                  <span class="tdee-unit">kcal / day</span>
+              <div class="tdee-goal-row">
+                <span class="tdee-goal-label">維持體重</span>
+                <div>
+                  <span class="tdee-goal-val" id="tdee-maintain">—</span><span class="tdee-goal-unit">kcal</span>
                 </div>
               </div>
-              <div class="tdee-divider"></div>
-              <div class="tdee-goals">
-                <div class="tdee-goal-row">
-                  <span class="tdee-goal-label">減脂目標</span>
-                  <div>
-                    <span class="tdee-goal-val" id="tdee-cut">—</span
-                    ><span class="tdee-goal-unit">kcal</span>
-                  </div>
-                </div>
-                <div class="tdee-goal-row">
-                  <span class="tdee-goal-label">維持體重</span>
-                  <div>
-                    <span class="tdee-goal-val" id="tdee-maintain">—</span
-                    ><span class="tdee-goal-unit">kcal</span>
-                  </div>
-                </div>
-                <div class="tdee-goal-row">
-                  <span class="tdee-goal-label">增肌目標</span>
-                  <div>
-                    <span class="tdee-goal-val" id="tdee-bulk">—</span
-                    ><span class="tdee-goal-unit">kcal</span>
-                  </div>
+              <div class="tdee-goal-row">
+                <span class="tdee-goal-label">增肌目標</span>
+                <div>
+                  <span class="tdee-goal-val" id="tdee-bulk">—</span><span class="tdee-goal-unit">kcal</span>
                 </div>
               </div>
-              <div class="tdee-action-row">
-                <button class="tdee-save-btn" onclick="saveTDEEToProfile()">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M2 2h8l2 2v8H2V2z"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                      stroke-linejoin="round"
-                    />
-                    <rect
-                      x="4"
-                      y="8"
-                      width="6"
-                      height="4"
-                      rx="0.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                    />
-                    <rect
-                      x="4"
-                      y="2"
-                      width="4"
-                      height="3"
-                      rx="0.5"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                    />
-                  </svg>
-                  儲存至會員資料
-                </button>
-                <button class="tdee-apply-btn" onclick="applyTDEETarget()">
-                  套用至飲食目標
-                </button>
-              </div>
+            </div>
+            <div class="tdee-action-row">
+              <button class="tdee-save-btn" onclick="saveTDEEToProfile()">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 2h8l2 2v8H2V2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                  <rect x="4" y="8" width="6" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" />
+                  <rect x="4" y="2" width="4" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+                儲存至會員資料
+              </button>
+              <button class="tdee-apply-btn" onclick="applyTDEETarget()">
+                套用至飲食目標
+              </button>
             </div>
           </div>
-          <div class="calc-left">
-            <p class="calc-eyebrow">Calculator 02</p>
-            <h2 class="calc-headline"><span>每日總熱量消耗</span>TDEE</h2>
-            <p class="calc-desc">
-              根據 Mifflin-St Jeor
-              公式計算基礎代謝率，再乘以活動係數，得出你每天真正需要的熱量。
-            </p>
-            <div class="calc-form">
-              <div class="calc-row-2">
-                <div class="calc-field">
-                  <label class="calc-label">性別</label>
-                  <div class="calc-radio-group">
-                    <label class="calc-radio"
-                      ><input
-                        type="radio"
-                        name="tdee-gender"
-                        value="male"
-                        checked
-                      /><span>男</span></label
-                    >
-                    <label class="calc-radio"
-                      ><input
-                        type="radio"
-                        name="tdee-gender"
-                        value="female"
-                      /><span>女</span></label
-                    >
-                  </div>
-                </div>
-                <div class="calc-field">
-                  <label class="calc-label">年齡</label>
-                  <div class="calc-input-wrap">
-                    <input
-                      class="calc-input"
-                      type="number"
-                      id="tdee-age"
-                      placeholder="25"
-                      min="10"
-                      max="100"
-                    />
-                    <span class="calc-unit">歲</span>
-                  </div>
-                </div>
-              </div>
-              <div class="calc-row-2">
-                <div class="calc-field">
-                  <label class="calc-label">身高</label>
-                  <div class="calc-input-wrap">
-                    <input
-                      class="calc-input"
-                      type="number"
-                      id="tdee-height"
-                      placeholder="175"
-                      min="100"
-                      max="250"
-                    />
-                    <span class="calc-unit">cm</span>
-                  </div>
-                </div>
-                <div class="calc-field">
-                  <label class="calc-label">體重</label>
-                  <div class="calc-input-wrap">
-                    <input
-                      class="calc-input"
-                      type="number"
-                      id="tdee-weight"
-                      placeholder="70"
-                      min="30"
-                      max="300"
-                    />
-                    <span class="calc-unit">kg</span>
-                  </div>
+        </div>
+        <div class="calc-left">
+          <p class="calc-eyebrow">Calculator 02</p>
+          <h2 class="calc-headline"><span>每日總熱量消耗</span>TDEE</h2>
+          <p class="calc-desc">
+            根據 Mifflin-St Jeor
+            公式計算基礎代謝率，再乘以活動係數，得出你每天真正需要的熱量。
+          </p>
+          <div class="calc-form">
+            <div class="calc-row-2">
+              <div class="calc-field">
+                <label class="calc-label">性別</label>
+                <div class="calc-radio-group">
+                  <label class="calc-radio"><input type="radio" name="tdee-gender" value="male"
+                      checked /><span>男</span></label>
+                  <label class="calc-radio"><input type="radio" name="tdee-gender"
+                      value="female" /><span>女</span></label>
                 </div>
               </div>
               <div class="calc-field">
-                <label class="calc-label">活動量</label>
-                <select class="calc-select" id="tdee-activity">
-                  <option value="1.2">久坐（幾乎不運動）</option>
-                  <option value="1.375">輕度活動（每週運動 1–3 天）</option>
-                  <option value="1.55" selected>
-                    中度活動（每週運動 3–5 天）
-                  </option>
-                  <option value="1.725">高度活動（每週運動 6–7 天）</option>
-                  <option value="1.9">極高活動（體力勞動或每日訓練）</option>
-                </select>
+                <label class="calc-label">年齡</label>
+                <div class="calc-input-wrap">
+                  <input class="calc-input" type="number" id="tdee-age" placeholder="25" min="10" max="100" />
+                  <span class="calc-unit">歲</span>
+                </div>
               </div>
-              <button class="calc-btn" onclick="calcTDEE()">計算 TDEE</button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════ TAB 3 — BMI ══════ -->
-      <div class="tab-panel" id="tab-bmi">
-        <div class="calc-layout">
-          <div class="calc-left">
-            <p class="calc-eyebrow">Calculator 03</p>
-            <h2 class="calc-headline"><span>身體質量指數</span>BMI</h2>
-            <p class="calc-desc">
-              輸入身高與體重，計算你目前的身體質量指數，並對照 WHO
-              標準分級，了解自己的體重狀態。
-            </p>
-            <div class="calc-form">
+            <div class="calc-row-2">
               <div class="calc-field">
                 <label class="calc-label">身高</label>
                 <div class="calc-input-wrap">
-                  <input
-                    class="calc-input"
-                    type="number"
-                    id="bmi-height"
-                    placeholder="175"
-                    min="100"
-                    max="250"
-                  />
+                  <input class="calc-input" type="number" id="tdee-height" placeholder="175" min="100" max="250" />
                   <span class="calc-unit">cm</span>
                 </div>
               </div>
               <div class="calc-field">
                 <label class="calc-label">體重</label>
                 <div class="calc-input-wrap">
-                  <input
-                    class="calc-input"
-                    type="number"
-                    id="bmi-weight"
-                    placeholder="70"
-                    min="30"
-                    max="300"
-                  />
+                  <input class="calc-input" type="number" id="tdee-weight" placeholder="70" min="30" max="300" />
                   <span class="calc-unit">kg</span>
                 </div>
               </div>
-              <button class="calc-btn" onclick="calcBMI()">計算 BMI</button>
             </div>
-          </div>
-          <div class="calc-right">
-            <div class="bmi-result-wrap">
-              <div class="bmi-display-block">
-                <span class="bmi-val" id="bmi-display">—</span>
-                <span class="bmi-val-unit">BMI</span>
-              </div>
-              <div class="bmi-cards">
-                <div class="bmi-card" id="bmi-card-thin">
-                  <div class="bmi-card-bar" style="background: #5b8fa8"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">過輕</span
-                    ><span class="bmi-card-range">BMI &lt; 18.5</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-normal">
-                  <div class="bmi-card-bar" style="background: #6aab7a"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">正常</span
-                    ><span class="bmi-card-range">18.5 – 24.9</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-over">
-                  <div class="bmi-card-bar" style="background: #e6a840"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">過重</span
-                    ><span class="bmi-card-range">25.0 – 29.9</span>
-                  </div>
-                </div>
-                <div class="bmi-card" id="bmi-card-obese">
-                  <div class="bmi-card-bar" style="background: #c0544a"></div>
-                  <div class="bmi-card-body">
-                    <span class="bmi-card-label">肥胖</span
-                    ><span class="bmi-card-range">BMI ≥ 30</span>
-                  </div>
-                </div>
-              </div>
+            <div class="calc-field">
+              <label class="calc-label">活動量</label>
+              <select class="calc-select" id="tdee-activity">
+                <option value="1.2">久坐（幾乎不運動）</option>
+                <option value="1.375">輕度活動（每週運動 1–3 天）</option>
+                <option value="1.55" selected>
+                  中度活動（每週運動 3–5 天）
+                </option>
+                <option value="1.725">高度活動（每週運動 6–7 天）</option>
+                <option value="1.9">極高活動（體力勞動或每日訓練）</option>
+              </select>
             </div>
+            <button class="calc-btn" onclick="calcTDEE()">計算 TDEE</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 跑馬燈 -->
-    <div class="marquee-wrap">
-      <div class="marquee-track">
-        <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
-        <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
-        <span class="marquee-item"
-          >Nutrition <span class="marquee-dot"></span
-        ></span>
-        <span class="marquee-item"
-          >Food Log <span class="marquee-dot"></span
-        ></span>
-        <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
-        <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
-        <span class="marquee-item"
-          >Nutrition <span class="marquee-dot"></span
-        ></span>
-        <span class="marquee-item"
-          >Food Log <span class="marquee-dot"></span
-        ></span>
-      </div>
-    </div>
-
-    <!-- ══════ FOOTER ══════ -->
-    <footer>
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="footer-logo">KATACHI</div>
-          <p class="footer-tagline">
-            精準的訓練，始於對身體的理解。每一組動作都應有其意義。
+    <!-- ══════ TAB 3 — BMI ══════ -->
+    <div class="tab-panel" id="tab-bmi">
+      <div class="calc-layout">
+        <div class="calc-left">
+          <p class="calc-eyebrow">Calculator 03</p>
+          <h2 class="calc-headline"><span>身體質量指數</span>BMI</h2>
+          <p class="calc-desc">
+            輸入身高與體重，計算你目前的身體質量指數，並對照 WHO
+            標準分級，了解自己的體重狀態。
           </p>
-          <div class="footer-social">
-            <a href="#" class="footer-social-link">IG</a>
-            <a href="#" class="footer-social-link">YT</a>
-            <a href="#" class="footer-social-link">FB</a>
+          <div class="calc-form">
+            <div class="calc-field">
+              <label class="calc-label">身高</label>
+              <div class="calc-input-wrap">
+                <input class="calc-input" type="number" id="bmi-height" placeholder="175" min="100" max="250" />
+                <span class="calc-unit">cm</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">體重</label>
+              <div class="calc-input-wrap">
+                <input class="calc-input" type="number" id="bmi-weight" placeholder="70" min="30" max="300" />
+                <span class="calc-unit">kg</span>
+              </div>
+            </div>
+            <button class="calc-btn" onclick="calcBMI()">計算 BMI</button>
           </div>
         </div>
-        <div>
-          <p class="footer-col-title">功能</p>
-          <ul class="footer-links">
-            <li><a href="#">肌肉百科</a></li>
-            <li><a href="#">動作教學</a></li>
-            <li><a href="#">訓練計畫</a></li>
-            <li><a href="nutrition.html">飲食計算</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">計算工具</p>
-          <ul class="footer-links">
-            <li><a href="#">1RM 計算器</a></li>
-            <li><a href="#">BMI 計算器</a></li>
-            <li><a href="#">TDEE 計算器</a></li>
-            <li><a href="#">強度百分比表</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">會員</p>
-          <ul class="footer-links">
-            <li><a href="#">登入 / 註冊</a></li>
-            <li><a href="#">訓練日誌</a></li>
-            <li><a href="#">進度追蹤</a></li>
-            <li><a href="#">個人儀表板</a></li>
-          </ul>
+        <div class="calc-right">
+          <div class="bmi-result-wrap">
+            <div class="bmi-display-block">
+              <span class="bmi-val" id="bmi-display">—</span>
+              <span class="bmi-val-unit">BMI</span>
+            </div>
+            <div class="bmi-cards">
+              <div class="bmi-card" id="bmi-card-thin">
+                <div class="bmi-card-bar" style="background: #5b8fa8"></div>
+                <div class="bmi-card-body">
+                  <span class="bmi-card-label">過輕</span><span class="bmi-card-range">BMI &lt; 18.5</span>
+                </div>
+              </div>
+              <div class="bmi-card" id="bmi-card-normal">
+                <div class="bmi-card-bar" style="background: #6aab7a"></div>
+                <div class="bmi-card-body">
+                  <span class="bmi-card-label">正常</span><span class="bmi-card-range">18.5 – 24.9</span>
+                </div>
+              </div>
+              <div class="bmi-card" id="bmi-card-over">
+                <div class="bmi-card-bar" style="background: #e6a840"></div>
+                <div class="bmi-card-body">
+                  <span class="bmi-card-label">過重</span><span class="bmi-card-range">25.0 – 29.9</span>
+                </div>
+              </div>
+              <div class="bmi-card" id="bmi-card-obese">
+                <div class="bmi-card-bar" style="background: #c0544a"></div>
+                <div class="bmi-card-body">
+                  <span class="bmi-card-label">肥胖</span><span class="bmi-card-range">BMI ≥ 30</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span class="footer-copy">© 2026 KATACHI. All rights reserved.</span>
-        <span class="footer-jp">形 · 重訓訓練百科</span>
-        <button
-          class="footer-scroll-top"
-          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-        >
-          <span class="footer-scroll-arr"></span>Back to top
-        </button>
+    </div>
+  </div>
+
+  <!-- 跑馬燈 -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
+      <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Nutrition <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Food Log <span class="marquee-dot"></span></span>
+      <span class="marquee-item">BMI <span class="marquee-dot"></span></span>
+      <span class="marquee-item">TDEE <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Nutrition <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Food Log <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">KATACHI</div>
+        <p class="footer-tagline">
+          精準的訓練，始於對身體的理解。每一組動作都應有其意義。
+        </p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link">IG</a>
+          <a href="#" class="footer-social-link">YT</a>
+          <a href="#" class="footer-social-link">FB</a>
+        </div>
       </div>
-    </footer>
-  </body>
+      <div>
+        <p class="footer-col-title">功能</p>
+        <ul class="footer-links">
+          <li><a href="#">肌肉百科</a></li>
+          <li><a href="#">動作教學</a></li>
+          <li><a href="#">訓練計畫</a></li>
+          <li><a href="nutrition.html">飲食計算</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">計算工具</p>
+        <ul class="footer-links">
+          <li><a href="#">1RM 計算器</a></li>
+          <li><a href="#">BMI 計算器</a></li>
+          <li><a href="#">TDEE 計算器</a></li>
+          <li><a href="#">強度百分比表</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">會員</p>
+        <ul class="footer-links">
+          <li><a href="#">登入 / 註冊</a></li>
+          <li><a href="#">訓練日誌</a></li>
+          <li><a href="#">進度追蹤</a></li>
+          <li><a href="#">個人儀表板</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 KATACHI. All rights reserved.</span>
+      <span class="footer-jp">形 · 重訓訓練百科</span>
+      <button class="footer-scroll-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <span class="footer-scroll-arr"></span>Back to top
+      </button>
+    </div>
+  </footer>
+</body>
+
 </html>
