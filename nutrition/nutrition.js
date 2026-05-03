@@ -423,20 +423,13 @@ function addToLog(id, grams = 100) {
     actualCarbs: food.carbs * ratio,
     actualFat: food.fat * ratio,
     addedAt: Date.now(),
-    isNew: true,   // ⭐ 標記為最新
   };
-  foodLog.unshift(newItem);   // ⭐ unshift = 插在最前面（原本是 push 加在最後）
-  renderLog();
-  updateChart();
+  foodLog.unshift(newItem);
 
-  // ⭐ 2 秒後移除 isNew 標記，背景色消失
-  setTimeout(() => {
-    const item = foodLog.find((e) => e.logId === newItem.logId);
-    if (item) {
-      item.isNew = false;
-      renderLog();
-    }
-  }, 2000);
+  // ⭐ 不用 renderLog() 整個重建，只插入新的那一筆
+  _insertNewLogItem(newItem);
+  updateChart();
+  _updateLogTotal();
 }
 
 // ⭐ 新增:更新已記錄食物的公克數
@@ -470,6 +463,65 @@ function clearLog() {
   renderLog();
   updateChart();
   showToast("已清除所有記錄");
+}
+function _insertNewLogItem(e) {
+  const container = document.getElementById("food-log");
+
+  // 如果之前是空的，先清掉「尚未記錄」的提示
+  const empty = container.querySelector(".food-log-empty");
+  if (empty) empty.remove();
+
+  // 建立新的 DOM 元素
+  const div = document.createElement("div");
+  div.className = "log-item log-item-new";
+  div.dataset.logid = e.logId;
+  div.innerHTML = `
+    <div class="log-item-left">
+      <div class="log-item-header">
+        <span class="log-item-name">${e.name}
+          <span class="log-item-time">${_fmtTime(e.addedAt)}</span>
+        </span>
+        <div class="log-item-grams">
+          <input 
+            type="number" 
+            class="log-grams-input"
+            value="${e.grams}" 
+            min="1" max="9999" step="1"
+            onchange="updateLogGrams(${e.logId}, this.value)"
+            onclick="this.select()"
+          />
+          <span class="log-grams-unit">g</span>
+        </div>
+      </div>
+      <span class="log-item-detail">
+        ${Math.round(e.actualCal)} kcal &nbsp;·&nbsp; 
+        蛋白 ${e.actualProtein.toFixed(1)}g &nbsp;·&nbsp; 
+        碳水 ${e.actualCarbs.toFixed(1)}g &nbsp;·&nbsp; 
+        脂肪 ${e.actualFat.toFixed(1)}g
+      </span>
+    </div>
+    <button class="log-remove-btn" onclick="removeFromLog(${e.logId})">×</button>
+  `;
+
+  // ⭐ 插在最前面
+  container.prepend(div);
+
+  // 顯示總計區塊（如果之前是隱藏的）
+  document.getElementById("log-total").classList.remove("hidden");
+
+  // ⭐ 3 秒後移除 log-item-new class，觸發橘色淡出
+  setTimeout(() => {
+    div.classList.remove("log-item-new");
+  }, 3000);
+}
+function _updateLogTotal() {
+  const t = totals();
+  document.getElementById("total-cal").textContent = Math.round(t.cal);
+  document.getElementById("total-protein").textContent = `蛋白質 ${Math.round(t.protein)}g`;
+  document.getElementById("total-carbs").textContent = `碳水 ${Math.round(t.carbs)}g`;
+  document.getElementById("total-fat").textContent = `脂肪 ${Math.round(t.fat)}g`;
+  document.getElementById("log-total").classList.remove("hidden");
+  updateChart();
 }
 function renderLog() {
   const el = document.getElementById("food-log");

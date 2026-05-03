@@ -1836,10 +1836,21 @@ footer {
   color: #fff;
 }
 
+/* ══════ 最新加入的食物 ══════ */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .log-item-new {
-  background: rgba(212, 132, 90, 0.12);
   border-radius: 4px;
-  transition: background 1.5s ease-in-out;
+  animation: slideInLeft 0.4s  cubic-bezier(0.16, 1, 0.3, 1);
 }
 /* ══════ RESPONSIVE ══════ */
 @media (max-width: 1024px) {
