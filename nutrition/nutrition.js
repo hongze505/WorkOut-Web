@@ -459,10 +459,23 @@ function removeFromLog(logId) {
 }
 function clearLog() {
   if (foodLog.length === 0) return;
-  foodLog = [];
+
+  // 從 localStorage 拿已儲存的版本
+  const key = document.getElementById("history-date-picker")?.value || _fmtDate(new Date());
+  const all = JSON.parse(localStorage.getItem(_LOG_KEY) || "{}");
+  const saved = all[key] || [];
+
+  // 如果跟已儲存的一樣，代表沒有未儲存的東西
+  if (foodLog.length === saved.length) {
+    showToast("沒有未儲存的記錄");
+    return;
+  }
+
+  // 還原成已儲存的版本
+  foodLog = [...saved];
   renderLog();
   updateChart();
-  showToast("已清除所有記錄");
+  showToast("已清除未儲存的記錄");
 }
 function _insertNewLogItem(e) {
   const container = document.getElementById("food-log");
