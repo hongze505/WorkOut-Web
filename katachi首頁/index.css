@@ -91,6 +91,7 @@ html.intro-active { scrollbar-color: transparent transparent; }
 }
 
 .dumbbell-i svg {
+  
   height: 0.78em;
   width: auto;
 }
@@ -125,7 +126,17 @@ html.intro-active { scrollbar-color: transparent transparent; }
   animation: fadeIn var(--dur-fast) 1.25s forwards;
   margin-top: -4px;
 }
+#transition-top, #transition-bot {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+#transition-top {
+  margin-bottom: -1.5px; /* 向上提一點點，蓋住接縫 */
+}
 
+#transition-bot {
+  margin-top: -1.5px; /* 向下提一點點 */
+}
 /* ══════════════════════════════
    G 過場遮罩 — 上下兩半
 ══════════════════════════════ */

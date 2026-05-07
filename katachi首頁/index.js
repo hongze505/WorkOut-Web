@@ -86,6 +86,8 @@ function startTransition() {
 if (sessionStorage.getItem('katachi_intro_played')) {
   // 已播過 → 直接跳過
   introScreen.style.display = 'none'
+  transTop.classList.add('split')
+  transBot.classList.add('split')
   transTop.classList.add('done')
   transBot.classList.add('done')
   nav.classList.add('visible')
